@@ -32,7 +32,9 @@ export class EnrollCourseEntity {
   @JoinColumn({ name: 'courseEntityId' })
   course: CourseEntity;
 
-  @ManyToOne(() => EnrollmentEntity, (enrollment) => enrollment.enrollcourses)
+  @ManyToOne(() => EnrollmentEntity, (enrollment) => enrollment.enrollcourses, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'enrollmentEntityId' })
   enrollment: EnrollmentEntity;
 }

@@ -27,10 +27,14 @@ export class EnrollmentEntity {
   @Column({ nullable: false })
   description: string;
 
-  @ManyToOne(() => StudentEntity, (student) => student.enrollments)
+  @ManyToOne(() => StudentEntity, (student) => student.enrollments, {
+    onDelete: 'CASCADE',
+  })
   student: StudentEntity;
 
-  @ManyToMany(() => CourseEntity, (course) => course.enrollments)
+  @ManyToMany(() => CourseEntity, (course) => course.enrollments, {
+    onDelete: 'CASCADE',
+  })
   courses: CourseEntity[];
 
   @OneToMany(
