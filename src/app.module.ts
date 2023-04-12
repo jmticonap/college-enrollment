@@ -8,6 +8,8 @@ import { EnrollmentEntity } from './entities/enrollment.entity';
 import { EnrollCourseEntity } from './entities/enrollcourse.entity';
 import { ProfessorEntity } from './entities/professor.entity';
 import { StudentEntity } from './entities/student.entity';
+import { LoggingInterceptor } from './logging/logging.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -32,6 +34,12 @@ import { StudentEntity } from './entities/student.entity';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+  ],
 })
 export class AppModule {}
