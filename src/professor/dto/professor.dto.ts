@@ -1,6 +1,7 @@
 export class CreateProfessorDto {
   fisrtname: string;
   lastname: string;
-  identification: string;
-  email?: string;
+  dni: string;
+  phone!: string;
+  address!: string;
 }
