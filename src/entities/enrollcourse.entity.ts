@@ -9,7 +9,7 @@ import { CourseEntity } from './course.entity';
 import { EnrollmentEntity } from './enrollment.entity';
 
 export enum CourseState {
-  CURRENT = 1,
+  TAKED = 1,
   APPROVED = 2,
   DISAPPROVED = 3,
 }
@@ -19,13 +19,13 @@ export class EnrollCourseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'enum', enum: CourseState, default: CourseState.CURRENT })
+  @Column({ type: 'enum', enum: CourseState, default: CourseState.TAKED })
   state: CourseState;
 
-  @Column()
+  @Column({ update: false })
   public courseEntityId: string;
 
-  @Column()
+  @Column({ update: false })
   public enrollmentEntityId: string;
 
   @ManyToOne(() => CourseEntity, (course) => course.enrollcourses)

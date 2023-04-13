@@ -16,16 +16,10 @@ export class EnrollmentEntity {
   id: string;
 
   @Column({ nullable: false })
-  fullname: string;
-
-  @Column({ unique: true, nullable: false })
-  abbreviation: string;
+  program: string; // Mathematics
 
   @Column({ nullable: false })
-  credits: number;
-
-  @Column({ nullable: false })
-  description: string;
+  description: string; //SEM-1-2023
 
   @ManyToOne(() => StudentEntity, (student) => student.enrollments, {
     onDelete: 'CASCADE',
