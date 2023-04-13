@@ -9,11 +9,10 @@ import {
   DefaultValuePipe,
   ParseIntPipe,
   Query,
-  Inject,
 } from '@nestjs/common';
 import { CreateProfessorDto } from './dto/professor.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { ProfessorEntity } from 'src/entities/professor.entity';
+import { ProfessorEntity } from '../entities/professor.entity';
 import { ProfessorService } from './professor.service';
 
 @Controller('professor')
@@ -35,7 +34,7 @@ export class ProfessorController {
 
   @Post()
   save(@Body() createProfessor: CreateProfessorDto): object {
-    return this.professorService.save(createProfessor);
+    return this.professorService.create(createProfessor);
   }
 
   @Patch(':id')
