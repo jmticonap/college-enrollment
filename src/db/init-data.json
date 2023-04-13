@@ -1,0 +1,72 @@
+[
+  {
+    "firstname": "John",
+    "lastname": "Doe",
+    "dni": "12345678",
+    "phone": "+1 (555) 123-4567",
+    "address": "123 Main St, Anytown, USA"
+  },
+  {
+    "firstname": "Jane",
+    "lastname": "Doe",
+    "dni": "23456789",
+    "phone": "+1 (555) 234-5678",
+    "address": "456 Elm St, Anytown, USA"
+  },
+  {
+    "firstname": "Bob",
+    "lastname": "Smith",
+    "dni": "34567890",
+    "phone": "+1 (555) 345-6789",
+    "address": "789 Oak St, Anytown, USA"
+  },
+  {
+    "firstname": "Alice",
+    "lastname": "Johnson",
+    "dni": "45678901",
+    "phone": "+1 (555) 456-7890",
+    "address": "321 Maple St, Anytown, USA"
+  },
+  {
+    "firstname": "Tom",
+    "lastname": "Brown",
+    "dni": "56789012",
+    "phone": "+1 (555) 567-8901",
+    "address": "654 Pine St, Anytown, USA"
+  },
+  {
+    "firstname": "Emily",
+    "lastname": "Davis",
+    "dni": "67890123",
+    "phone": "+1 (555) 678-9012",
+    "address": "987 Cedar St, Anytown, USA"
+  },
+  {
+    "firstname": "David",
+    "lastname": "Wilson",
+    "dni": "78901234",
+    "phone": "+1 (555) 789-0123",
+    "address": "246 Cherry St, Anytown, USA"
+  },
+  {
+    "firstname": "Sarah",
+    "lastname": "Miller",
+    "dni": "89012345",
+    "phone": "+1 (555) 890-1234",
+    "address": "369 Ash St, Anytown, USA"
+  },
+  {
+    "firstname": "Michael",
+    "lastname": "Taylor",
+    "dni": "90123456",
+    "phone": "+1 (555) 901-2345",
+    "address": "582 Walnut St, Anytown, USA"
+  },
+  {
+    "firstname": "Olivia",
+    "lastname": "Lee",
+    "dni": "01234567",
+    "phone": "+1 (555) 012-3456",
+    "address": "703 Birch St, Anytown, USA"
+  }
+]
