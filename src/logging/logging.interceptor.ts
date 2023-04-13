@@ -19,20 +19,22 @@ export class LoggingInterceptor implements NestInterceptor {
       tap(() => {
         const responseTime = Date.now() - now.getTime();
         const logMessage = `${method} ${url} ${responseTime}ms`;
-        createWriteStream('logs.txt', { flags: 'a' }).write(logMessage + '\n');
+        createWriteStream('src/logging/logs.log', { flags: 'a' }).write(
+          logMessage + '\n',
+        );
       }),
       tap({
         async next() {
           const responseTime = Date.now() - now.getTime();
           const logMessage = `${now.toLocaleString()} | ${url}: DB INSERT/UPDATE ${responseTime}ms`;
-          createWriteStream('logs.txt', { flags: 'a' }).write(
+          createWriteStream('src/logging/logs.log', { flags: 'a' }).write(
             logMessage + '\n',
           );
         },
         async error() {
           const responseTime = Date.now() - now.getTime();
           const logMessage = `${now.toLocaleString()} | ${url}: DB INSERT/UPDATE ${responseTime}ms`;
-          createWriteStream('logs.txt', { flags: 'a' }).write(
+          createWriteStream('src/logging/logs.log', { flags: 'a' }).write(
             logMessage + '\n',
           );
         },
