@@ -8,19 +8,25 @@ import {
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
 import { LoggingInterceptor } from 'src/logging/logging.interceptor';
+import { CreateProfessorDto } from './dto/professor.dto';
 
 @Injectable()
 export class ProfessorService {
-  private currentId = '';
-
   constructor(
     @InjectRepository(ProfessorEntity)
     private professorRepository: Repository<ProfessorEntity>,
   ) {}
 
   @UseInterceptors(LoggingInterceptor)
-  async save(entity: ProfessorEntity) {
-    return await this.professorRepository.save(entity);
+  async save(createProfessor: CreateProfessorDto) {
+    const professor = new ProfessorEntity();
+    professor.firstname = createProfessor.firstname;
+    professor.lastname = createProfessor.lastname;
+    professor.dni = createProfessor.dni;
+    professor.phone = createProfessor.phone;
+    professor.address = createProfessor.address;
+
+    return await this.professorRepository.save(professor);
   }
 
   async findPaged(
@@ -35,6 +41,10 @@ export class ProfessorService {
     professor: ProfessorEntity,
   ): Promise<ProfessorEntity> {
     await this.professorRepository.update(id, professor);
-    return await this.professorRepository.findOne({ where: { id } });
+    return await this.professorRepository.findOneBy({ id });
+  }
+
+  async remove(id: string) {
+    return await this.professorRepository.delete(id);
   }
 }

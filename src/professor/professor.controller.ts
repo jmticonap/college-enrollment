@@ -2,13 +2,14 @@ import {
   Controller,
   Get,
   Post,
-  Put,
+  Patch,
   Delete,
   Param,
   Body,
   DefaultValuePipe,
   ParseIntPipe,
   Query,
+  Inject,
 } from '@nestjs/common';
 import { CreateProfessorDto } from './dto/professor.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -34,19 +35,15 @@ export class ProfessorController {
 
   @Post()
   save(@Body() createProfessor: CreateProfessorDto): object {
-    const professor = new ProfessorEntity();
-    professor.firstname = createProfessor.fisrtname;
-    professor.lastname = createProfessor.lastname;
-    professor.dni = createProfessor.dni;
-    professor.phone = createProfessor.phone;
-    professor.address = createProfessor.address;
-
-    return this.professorService.save(professor);
+    return this.professorService.save(createProfessor);
   }
 
-  @Put()
-  update(): string {
-    return `Professor updated`;
+  @Patch(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() professor: ProfessorEntity,
+  ): Promise<ProfessorEntity> {
+    return this.professorService.update(id, professor);
   }
 
   @Delete(':id')
