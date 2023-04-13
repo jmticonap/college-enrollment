@@ -1,9 +1,9 @@
 import { Injectable, UseInterceptors } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
-import { LoggingInterceptor } from 'src/logging/logging.interceptor';
+import { LoggingInterceptor } from '../logging/logging.interceptor';
 import { InjectRepository } from '@nestjs/typeorm';
-import { StudentEntity } from 'src/entities/student.entity';
+import { StudentEntity } from '../entities/student.entity';
 import { Repository } from 'typeorm';
 import {
   IPaginationOptions,
