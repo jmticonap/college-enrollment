@@ -2,17 +2,23 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProfessorModule } from './professor/professor.module';
 import { LoggingInterceptor } from './logging/logging.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { dataSourceOptions } from './db/data-source';
+import { ProfessorModule } from './professor/professor.module';
 import { StudentModule } from './student/student.module';
+import { EnrollmentModule } from './enrollment/enrollment.module';
+import { dataSourceOptions } from './db/data-source';
+import { EnrollCourseModule } from './enroll-course/enroll-course.module';
+import { CourseModule } from './course/course.module';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot(dataSourceOptions),
     ProfessorModule,
     StudentModule,
-    TypeOrmModule.forRoot(dataSourceOptions),
+    EnrollmentModule,
+    EnrollCourseModule,
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [
