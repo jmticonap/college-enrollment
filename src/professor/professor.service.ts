@@ -1,15 +1,17 @@
 import { Injectable, UseInterceptors } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProfessorEntity } from '../entities/professor.entity';
 import { Repository } from 'typeorm';
 import {
   paginate,
   Pagination,
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
-import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
+import { ProfessorEntity } from '../entities/professor.entity';
 import { CreateProfessorDto } from './dto/professor.dto';
+import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
+import { ErrorInterceptor } from '../logging/error.interceptor';
 
+@UseInterceptors(ErrorInterceptor)
 @Injectable()
 export class ProfessorService {
   constructor(

@@ -1,17 +1,19 @@
 import { Injectable, UseInterceptors } from '@nestjs/common';
-import { CreateCourseDto } from './dto/create-course.dto';
-import { UpdateCourseDto } from './dto/update-course.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CourseEntity } from '../entities/course.entity';
 import { Repository } from 'typeorm';
-import { ProfessorService } from '../professor/professor.service';
 import {
   IPaginationOptions,
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
+import { CreateCourseDto } from './dto/create-course.dto';
+import { UpdateCourseDto } from './dto/update-course.dto';
+import { CourseEntity } from '../entities/course.entity';
+import { ProfessorService } from '../professor/professor.service';
 import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
+import { ErrorInterceptor } from '../logging/error.interceptor';
 
+@UseInterceptors(ErrorInterceptor)
 @Injectable()
 export class CourseService {
   constructor(

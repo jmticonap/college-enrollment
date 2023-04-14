@@ -1,18 +1,20 @@
 import { Injectable, UseInterceptors } from '@nestjs/common';
-import { CreateEnrollCourseDto } from './dto/create-enroll-course.dto';
-import { UpdateEnrollCourseDto } from './dto/update-enroll-course.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EnrollCourseEntity } from '../entities/enrollcourse.entity';
 import { Repository } from 'typeorm';
-import { CourseService } from '../course/course.service';
-import { EnrollmentService } from '../enrollment/enrollment.service';
-import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
 import {
   IPaginationOptions,
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
+import { CreateEnrollCourseDto } from './dto/create-enroll-course.dto';
+import { UpdateEnrollCourseDto } from './dto/update-enroll-course.dto';
+import { EnrollCourseEntity } from '../entities/enrollcourse.entity';
+import { CourseService } from '../course/course.service';
+import { EnrollmentService } from '../enrollment/enrollment.service';
+import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
+import { ErrorInterceptor } from '../logging/error.interceptor';
 
+@UseInterceptors(ErrorInterceptor)
 @Injectable()
 export class EnrollCourseService {
   constructor(
