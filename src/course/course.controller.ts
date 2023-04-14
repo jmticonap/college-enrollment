@@ -14,7 +14,7 @@ import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { CourseEntity } from 'src/entities/course.entity';
+import { CourseEntity } from '../entities/course.entity';
 
 @Controller('course')
 export class CourseController {
