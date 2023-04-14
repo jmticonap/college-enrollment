@@ -1,20 +1,22 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { StudentController } from './student.controller';
 import { StudentService } from './student.service';
+import dataSource from '../db/data-source';
+import { StudentEntity } from '../entities/student.entity';
 
 describe('StudentController', () => {
+  let service: StudentService;
   let controller: StudentController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [StudentController],
-      providers: [StudentService],
-    }).compile();
-
-    controller = module.get<StudentController>(StudentController);
+    service = new StudentService(dataSource.getRepository(StudentEntity));
+    controller = new StudentController(service);
   });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  it('1 + 1', () => {
+    expect(1 + 1).toBe(2);
   });
 });

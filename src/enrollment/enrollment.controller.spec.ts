@@ -1,20 +1,31 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EnrollmentController } from './enrollment.controller';
+import dataSource from '../db/data-source';
 import { EnrollmentService } from './enrollment.service';
+import { StudentService } from '../student/student.service';
+import { StudentEntity } from '../entities/student.entity';
+import { EnrollmentEntity } from '../entities/enrollment.entity';
+import { EnrollmentController } from './enrollment.controller';
 
-describe('EnrollmentController', () => {
+describe('EnrollmentService', () => {
+  let service: EnrollmentService;
+  let studentService: StudentService;
   let controller: EnrollmentController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [EnrollmentController],
-      providers: [EnrollmentService],
-    }).compile();
-
-    controller = module.get<EnrollmentController>(EnrollmentController);
+    studentService = new StudentService(
+      dataSource.getRepository(StudentEntity),
+    );
+    service = new EnrollmentService(
+      dataSource.getRepository(EnrollmentEntity),
+      studentService,
+    );
+    controller = new EnrollmentController(service);
   });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  it('1 + 1', () => {
+    expect(1 + 1).toBe(2);
   });
 });

@@ -1,17 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { ProfessorService } from './professor.service';
-import { ProfessorController } from './professor.controller';
+import dataSource from '../db/data-source';
+import { ProfessorEntity } from '../entities/professor.entity';
 
 describe('ProfessorService', () => {
   let service: ProfessorService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [ProfessorController],
-      providers: [ProfessorService],
-    }).compile();
-
-    service = module.get<ProfessorService>(ProfessorService);
+    service = new ProfessorService(dataSource.getRepository(ProfessorEntity));
   });
 
   it('should be defined', () => {

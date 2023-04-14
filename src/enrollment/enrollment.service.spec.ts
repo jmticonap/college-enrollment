@@ -1,18 +1,28 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import dataSource from '../db/data-source';
 import { EnrollmentService } from './enrollment.service';
+import { StudentService } from '../student/student.service';
+import { StudentEntity } from '../entities/student.entity';
+import { EnrollmentEntity } from '../entities/enrollment.entity';
 
 describe('EnrollmentService', () => {
   let service: EnrollmentService;
+  let studentService: StudentService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [EnrollmentService],
-    }).compile();
-
-    service = module.get<EnrollmentService>(EnrollmentService);
+    studentService = new StudentService(
+      dataSource.getRepository(StudentEntity),
+    );
+    service = new EnrollmentService(
+      dataSource.getRepository(EnrollmentEntity),
+      studentService,
+    );
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('1 + 1', () => {
+    expect(1 + 1).toBe(2);
   });
 });
