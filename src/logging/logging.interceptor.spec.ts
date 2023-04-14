@@ -1,7 +1,7 @@
-import { LoggingInterceptor } from './logging.interceptor';
+import { CreateUpdateInterceptor } from './createUpdate.interceptor';
 
 describe('LoggingInterceptor', () => {
   it('should be defined', () => {
-    expect(new LoggingInterceptor()).toBeDefined();
+    expect(new CreateUpdateInterceptor()).toBeDefined();
   });
 });

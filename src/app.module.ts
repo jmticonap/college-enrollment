@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LoggingInterceptor } from './logging/logging.interceptor';
+import { CreateUpdateInterceptor } from './logging/createUpdate.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ProfessorModule } from './professor/professor.module';
 import { StudentModule } from './student/student.module';
@@ -30,7 +30,7 @@ import { ConfigModule } from '@nestjs/config';
     AppService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor,
+      useClass: CreateUpdateInterceptor,
     },
   ],
 })

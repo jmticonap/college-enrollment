@@ -4,7 +4,7 @@ import { UpdateEnrollmentDto } from './dto/update-enrollment.dto';
 import { EnrollmentEntity } from '../entities/enrollment.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LoggingInterceptor } from '../logging/logging.interceptor';
+import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
 import { StudentService } from '../student/student.service';
 import {
   IPaginationOptions,
@@ -20,7 +20,7 @@ export class EnrollmentService {
     private readonly studentService: StudentService,
   ) {}
 
-  @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(CreateUpdateInterceptor)
   async create(enrollmentDto: CreateEnrollmentDto) {
     const student = await this.studentService.findById(enrollmentDto.studentId);
     if (!student) throw new Error('Student not found');
@@ -55,7 +55,7 @@ export class EnrollmentService {
     }
   }
 
-  @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(CreateUpdateInterceptor)
   async update(id: string, enrollmentDto: UpdateEnrollmentDto) {
     try {
       return await this.enrollmentRepository.update(id, enrollmentDto);
