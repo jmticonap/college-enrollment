@@ -6,7 +6,7 @@ import { EnrollCourseEntity } from '../entities/enrollcourse.entity';
 import { Repository } from 'typeorm';
 import { CourseService } from '../course/course.service';
 import { EnrollmentService } from '../enrollment/enrollment.service';
-import { LoggingInterceptor } from '../logging/logging.interceptor';
+import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
 import {
   IPaginationOptions,
   Pagination,
@@ -22,7 +22,7 @@ export class EnrollCourseService {
     private readonly enrollmentService: EnrollmentService,
   ) {}
 
-  @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(CreateUpdateInterceptor)
   async create(enrollCourseDto: CreateEnrollCourseDto) {
     try {
       const enrollment = await this.enrollmentService.findById(
@@ -74,7 +74,7 @@ export class EnrollCourseService {
     }
   }
 
-  @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(CreateUpdateInterceptor)
   async update(id: number, enrollCourseDto: UpdateEnrollCourseDto) {
     try {
       return await this.enrollcourseRepository.update(id, enrollCourseDto);

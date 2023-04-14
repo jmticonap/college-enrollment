@@ -10,7 +10,7 @@ import {
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
-import { LoggingInterceptor } from '../logging/logging.interceptor';
+import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
 
 @Injectable()
 export class CourseService {
@@ -20,7 +20,7 @@ export class CourseService {
     private readonly professorService: ProfessorService,
   ) {}
 
-  @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(CreateUpdateInterceptor)
   async create(courseDto: CreateCourseDto) {
     try {
       const professor = await this.professorService.findById(
@@ -67,7 +67,7 @@ export class CourseService {
     }
   }
 
-  @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(CreateUpdateInterceptor)
   async update(id: string, courseDto: UpdateCourseDto) {
     try {
       return this.courseRepository.update(id, courseDto);

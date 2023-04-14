@@ -7,7 +7,7 @@ import {
   Pagination,
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
-import { LoggingInterceptor } from '../logging/logging.interceptor';
+import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
 import { CreateProfessorDto } from './dto/professor.dto';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class ProfessorService {
     private readonly professorRepository: Repository<ProfessorEntity>,
   ) {}
 
-  @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(CreateUpdateInterceptor)
   async create(createProfessor: CreateProfessorDto) {
     const professor = new ProfessorEntity();
     professor.firstname = createProfessor.firstname;
@@ -51,7 +51,7 @@ export class ProfessorService {
     }
   }
 
-  @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(CreateUpdateInterceptor)
   async update(
     id: string,
     professor: ProfessorEntity,

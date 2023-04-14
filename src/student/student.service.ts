@@ -1,7 +1,7 @@
 import { Injectable, UseInterceptors } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
-import { LoggingInterceptor } from '../logging/logging.interceptor';
+import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StudentEntity } from '../entities/student.entity';
 import { Repository } from 'typeorm';
@@ -18,7 +18,7 @@ export class StudentService {
     private studentRepository: Repository<StudentEntity>,
   ) {}
 
-  @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(CreateUpdateInterceptor)
   async create(studentDto: CreateStudentDto) {
     const student = new StudentEntity();
     student.firstname = studentDto.firstname;
@@ -52,7 +52,7 @@ export class StudentService {
     }
   }
 
-  @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(CreateUpdateInterceptor)
   async update(id: string, studentDto: UpdateStudentDto) {
     try {
       await this.studentRepository.update(id, studentDto);
