@@ -39,3 +39,6 @@ lerna-debug.log*
 logs.txt
 
 src/program/
+
+.env
+.env*
