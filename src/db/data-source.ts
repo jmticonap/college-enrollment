@@ -1,15 +1,16 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { env } from 'process';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: 'password',
-  database: 'college-enrolment-db',
+  host: env.DB_HOST || 'localhost',
+  port: parseInt(env.DB_PORT, 10) || 5432,
+  username: env.DB_USERNAME || 'postgres',
+  password: env.DB_PASSWORD || 'password',
+  database: env.DB_NAME,
   entities: ['dist/**/*.entity.js'],
-  poolSize: 10,
-  synchronize: process.env.NODE_ENV === 'dev',
+  poolSize: parseInt(env.DB_POOL_SIZE, 10) || 10,
+  synchronize: !['dev', 'test'].includes(env.NODE_ENV),
 };
 
 const dataSource = new DataSource(dataSourceOptions);

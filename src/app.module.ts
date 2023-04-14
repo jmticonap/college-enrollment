@@ -10,9 +10,14 @@ import { EnrollmentModule } from './enrollment/enrollment.module';
 import { dataSourceOptions } from './db/data-source';
 import { EnrollCourseModule } from './enroll-course/enroll-course.module';
 import { CourseModule } from './course/course.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env.dev',
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot(dataSourceOptions),
     ProfessorModule,
     StudentModule,
