@@ -30,13 +30,21 @@ export class EnrollmentService {
     enrollment.description = enrollmentDto.description;
     enrollment.student = student;
 
-    return this.enrollmentRepository.save(enrollment);
+    try {
+      return this.enrollmentRepository.save(enrollment);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   findPaged(
     options: IPaginationOptions,
   ): Promise<Pagination<EnrollmentEntity>> {
-    return paginate<EnrollmentEntity>(this.enrollmentRepository, options);
+    try {
+      return paginate<EnrollmentEntity>(this.enrollmentRepository, options);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async findById(id: string): Promise<EnrollmentEntity> {

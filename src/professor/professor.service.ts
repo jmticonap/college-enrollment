@@ -26,13 +26,21 @@ export class ProfessorService {
     professor.phone = createProfessor.phone;
     professor.address = createProfessor.address;
 
-    return await this.professorRepository.save(professor);
+    try {
+      return await this.professorRepository.save(professor);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async findPaged(
     options: IPaginationOptions,
   ): Promise<Pagination<ProfessorEntity>> {
-    return paginate<ProfessorEntity>(this.professorRepository, options);
+    try {
+      return paginate<ProfessorEntity>(this.professorRepository, options);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async findById(id: string): Promise<ProfessorEntity> {
@@ -48,8 +56,12 @@ export class ProfessorService {
     id: string,
     professor: ProfessorEntity,
   ): Promise<ProfessorEntity> {
-    await this.professorRepository.update(id, professor);
-    return await this.professorRepository.findOneBy({ id });
+    try {
+      await this.professorRepository.update(id, professor);
+      return await this.professorRepository.findOneBy({ id });
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async remove(id: string) {

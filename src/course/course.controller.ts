@@ -22,7 +22,11 @@ export class CourseController {
 
   @Post()
   create(@Body() createCourseDto: CreateCourseDto) {
-    return this.courseService.create(createCourseDto);
+    try {
+      return this.courseService.create(createCourseDto);
+    } catch (error) {
+      return error;
+    }
   }
 
   @Get()
@@ -31,11 +35,15 @@ export class CourseController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
   ): Promise<Pagination<CourseEntity>> {
     limit = limit > 100 ? 100 : limit;
-    return this.courseService.findPaged({
-      page,
-      limit,
-      route: 'http://localhost:3000/course',
-    });
+    try {
+      return this.courseService.findPaged({
+        page,
+        limit,
+        route: 'http://localhost:3000/course',
+      });
+    } catch (error) {
+      return error;
+    }
   }
 
   @Get(':id')
@@ -58,7 +66,11 @@ export class CourseController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() courseDto: UpdateCourseDto) {
-    return this.courseService.update(id, courseDto);
+    try {
+      return this.courseService.update(id, courseDto);
+    } catch (error) {
+      return error;
+    }
   }
 
   @Delete(':id')

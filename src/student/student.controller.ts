@@ -22,30 +22,46 @@ export class StudentController {
 
   @Post()
   create(@Body() createStudentDto: CreateStudentDto) {
-    return this.studentService.create(createStudentDto);
+    try {
+      return this.studentService.create(createStudentDto);
+    } catch (error) {
+      return error;
+    }
   }
 
   @Get()
   find(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
-  ): Promise<Pagination<StudentEntity>> {
+  ) {
     limit = limit > 100 ? 100 : limit;
-    return this.studentService.findPaged({
-      page,
-      limit,
-      route: 'http://localhost:3000/student',
-    });
+    try {
+      return this.studentService.findPaged({
+        page,
+        limit,
+        route: 'http://localhost:3000/student',
+      });
+    } catch (error) {
+      return error;
+    }
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.studentService.findById(id);
+    try {
+      return this.studentService.findById(id);
+    } catch (error) {
+      return error;
+    }
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() studentDto: UpdateStudentDto) {
-    return this.studentService.update(id, studentDto);
+    try {
+      return this.studentService.update(id, studentDto);
+    } catch (error) {
+      return error;
+    }
   }
 
   @Delete(':id')

@@ -27,26 +27,39 @@ export class StudentService {
     student.phone = studentDto.phone;
     student.address = studentDto.address;
 
-    return await this.studentRepository.save(student);
+    try {
+      return await this.studentRepository.save(student);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async findPaged(
     options: IPaginationOptions,
   ): Promise<Pagination<StudentEntity>> {
-    return paginate<StudentEntity>(this.studentRepository, options);
+    try {
+      return paginate<StudentEntity>(this.studentRepository, options);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async findById(id: string): Promise<StudentEntity> {
-    const student = this.studentRepository.findOneBy({ id });
-
-    return student;
+    try {
+      return this.studentRepository.findOneBy({ id });
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   @UseInterceptors(LoggingInterceptor)
   async update(id: string, studentDto: UpdateStudentDto) {
-    await this.studentRepository.update(id, studentDto);
-
-    return await this.studentRepository.findOneBy({ id });
+    try {
+      await this.studentRepository.update(id, studentDto);
+      return await this.studentRepository.findOneBy({ id });
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async remove(id: string) {

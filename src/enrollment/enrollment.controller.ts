@@ -23,7 +23,7 @@ export class EnrollmentController {
     try {
       return await this.enrollmentService.create(createEnrollmentDto);
     } catch (error) {
-      return new Error(error.message);
+      return error;
     }
   }
 
@@ -33,11 +33,15 @@ export class EnrollmentController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
   ) {
     limit = limit > 100 ? 100 : limit;
-    return await this.enrollmentService.findPaged({
-      page,
-      limit,
-      route: 'http://localhost:3000/enrollment',
-    });
+    try {
+      return await this.enrollmentService.findPaged({
+        page,
+        limit,
+        route: 'http://localhost:3000/enrollment',
+      });
+    } catch (error) {
+      return error;
+    }
   }
 
   @Get(':id')

@@ -43,16 +43,19 @@ export class EnrollCourseService {
     } catch (error) {
       throw new Error(error.message);
     }
-    return 'This action adds a new enrollCourse';
   }
 
   async findPaged(
     options: IPaginationOptions,
   ): Promise<Pagination<EnrollCourseEntity>> {
-    return await paginate<EnrollCourseEntity>(
-      this.enrollcourseRepository,
-      options,
-    );
+    try {
+      return await paginate<EnrollCourseEntity>(
+        this.enrollcourseRepository,
+        options,
+      );
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async findById(id: string) {

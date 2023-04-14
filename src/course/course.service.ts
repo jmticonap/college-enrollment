@@ -42,7 +42,11 @@ export class CourseService {
   }
 
   findPaged(options: IPaginationOptions): Promise<Pagination<CourseEntity>> {
-    return paginate<CourseEntity>(this.courseRepository, options);
+    try {
+      return paginate<CourseEntity>(this.courseRepository, options);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async findById(id: string) {

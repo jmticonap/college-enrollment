@@ -25,16 +25,24 @@ export class ProfessorController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
   ): Promise<Pagination<ProfessorEntity>> {
     limit = limit > 100 ? 100 : limit;
-    return this.professorService.findPaged({
-      page,
-      limit,
-      route: 'http://localhost:3000/professor',
-    });
+    try {
+      return this.professorService.findPaged({
+        page,
+        limit,
+        route: 'http://localhost:3000/professor',
+      });
+    } catch (error) {
+      return error;
+    }
   }
 
   @Post()
   save(@Body() createProfessor: CreateProfessorDto): object {
-    return this.professorService.create(createProfessor);
+    try {
+      return this.professorService.create(createProfessor);
+    } catch (error) {
+      return error;
+    }
   }
 
   @Patch(':id')
@@ -42,7 +50,11 @@ export class ProfessorController {
     @Param('id') id: string,
     @Body() professor: ProfessorEntity,
   ): Promise<ProfessorEntity> {
-    return this.professorService.update(id, professor);
+    try {
+      return this.professorService.update(id, professor);
+    } catch (error) {
+      return error;
+    }
   }
 
   @Delete(':id')
