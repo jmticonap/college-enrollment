@@ -4,9 +4,9 @@ import { UpdateEnrollCourseDto } from './dto/update-enroll-course.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EnrollCourseEntity } from '../entities/enrollcourse.entity';
 import { Repository } from 'typeorm';
-import { CourseService } from 'src/course/course.service';
-import { EnrollmentService } from 'src/enrollment/enrollment.service';
-import { LoggingInterceptor } from 'src/logging/logging.interceptor';
+import { CourseService } from '../course/course.service';
+import { EnrollmentService } from '../enrollment/enrollment.service';
+import { LoggingInterceptor } from '../logging/logging.interceptor';
 import {
   IPaginationOptions,
   Pagination,

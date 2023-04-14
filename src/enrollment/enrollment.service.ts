@@ -4,8 +4,8 @@ import { UpdateEnrollmentDto } from './dto/update-enrollment.dto';
 import { EnrollmentEntity } from '../entities/enrollment.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LoggingInterceptor } from 'src/logging/logging.interceptor';
-import { StudentService } from 'src/student/student.service';
+import { LoggingInterceptor } from '../logging/logging.interceptor';
+import { StudentService } from '../student/student.service';
 import {
   IPaginationOptions,
   Pagination,

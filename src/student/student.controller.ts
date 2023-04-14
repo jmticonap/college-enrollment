@@ -13,7 +13,7 @@ import {
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
-import { StudentEntity } from 'src/entities/student.entity';
+import { StudentEntity } from '../entities/student.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('student')

@@ -10,7 +10,7 @@ import {
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
-import { LoggingInterceptor } from 'src/logging/logging.interceptor';
+import { LoggingInterceptor } from '../logging/logging.interceptor';
 
 @Injectable()
 export class CourseService {

@@ -3,8 +3,8 @@ import { EnrollCourseService } from './enroll-course.service';
 import { EnrollCourseController } from './enroll-course.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnrollCourseEntity } from '../entities/enrollcourse.entity';
-import { EnrollmentModule } from 'src/enrollment/enrollment.module';
-import { CourseModule } from 'src/course/course.module';
+import { EnrollmentModule } from '../enrollment/enrollment.module';
+import { CourseModule } from '../course/course.module';
 
 @Module({
   imports: [
