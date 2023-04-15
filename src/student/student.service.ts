@@ -22,46 +22,22 @@ export class StudentService {
 
   @UseInterceptors(CreateUpdateInterceptor)
   async create(studentDto: CreateStudentDto) {
-    const student = new StudentEntity();
-    student.firstname = studentDto.firstname;
-    student.lastname = studentDto.lastname;
-    student.dni = studentDto.dni;
-    student.phone = studentDto.phone;
-    student.address = studentDto.address;
-
-    try {
-      return await this.studentRepository.save(student);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return await this.studentRepository.save(studentDto);
   }
 
   async findPaged(
     options: IPaginationOptions,
   ): Promise<Pagination<StudentEntity>> {
-    try {
-      return paginate<StudentEntity>(this.studentRepository, options);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return paginate<StudentEntity>(this.studentRepository, options);
   }
 
   async findById(id: string): Promise<StudentEntity> {
-    try {
-      return this.studentRepository.findOneBy({ id });
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return this.studentRepository.findOneBy({ id });
   }
 
   @UseInterceptors(CreateUpdateInterceptor)
   async update(id: string, studentDto: UpdateStudentDto) {
-    try {
-      await this.studentRepository.update(id, studentDto);
-      return await this.studentRepository.findOneBy({ id });
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return await this.studentRepository.update(id, studentDto);
   }
 
   async remove(id: string) {

@@ -27,43 +27,22 @@ export class EnrollmentService {
     const student = await this.studentService.findById(enrollmentDto.studentId);
     if (!student) throw new Error('Student not found');
 
-    const enrollment = new EnrollmentEntity();
-    enrollment.program = enrollmentDto.program;
-    enrollment.description = enrollmentDto.description;
-    enrollment.student = student;
-
-    try {
-      return this.enrollmentRepository.save(enrollment);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return this.enrollmentRepository.save({ ...enrollmentDto, student });
   }
 
   findPaged(
     options: IPaginationOptions,
   ): Promise<Pagination<EnrollmentEntity>> {
-    try {
-      return paginate<EnrollmentEntity>(this.enrollmentRepository, options);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return paginate<EnrollmentEntity>(this.enrollmentRepository, options);
   }
 
   async findById(id: string): Promise<EnrollmentEntity> {
-    try {
-      return await this.enrollmentRepository.findOneBy({ id });
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return await this.enrollmentRepository.findOneBy({ id });
   }
 
   @UseInterceptors(CreateUpdateInterceptor)
-  async update(id: string, enrollmentDto: UpdateEnrollmentDto) {
-    try {
-      return await this.enrollmentRepository.update(id, enrollmentDto);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+  async update(id: string, updateEnrollmentDto: UpdateEnrollmentDto) {
+    return await this.enrollmentRepository.update(id, updateEnrollmentDto);
   }
 
   remove(id: number) {

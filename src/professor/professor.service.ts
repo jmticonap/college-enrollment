@@ -10,6 +10,7 @@ import { ProfessorEntity } from '../entities/professor.entity';
 import { CreateProfessorDto } from './dto/create-professor.dto';
 import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
 import { ErrorInterceptor } from '../logging/error.interceptor';
+import { UpdateProfessorDto } from './dto/update-professor.dto';
 
 @UseInterceptors(ErrorInterceptor)
 @Injectable()
@@ -21,49 +22,22 @@ export class ProfessorService {
 
   @UseInterceptors(CreateUpdateInterceptor)
   async create(createProfessor: CreateProfessorDto) {
-    const professor = new ProfessorEntity();
-    professor.firstname = createProfessor.firstname;
-    professor.lastname = createProfessor.lastname;
-    professor.dni = createProfessor.dni;
-    professor.phone = createProfessor.phone;
-    professor.address = createProfessor.address;
-
-    try {
-      return await this.professorRepository.save(professor);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return await this.professorRepository.save(createProfessor);
   }
 
   async findPaged(
     options: IPaginationOptions,
   ): Promise<Pagination<ProfessorEntity>> {
-    try {
-      return paginate<ProfessorEntity>(this.professorRepository, options);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return paginate<ProfessorEntity>(this.professorRepository, options);
   }
 
   async findById(id: string): Promise<ProfessorEntity> {
-    try {
-      return this.professorRepository.findOneBy({ id });
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return this.professorRepository.findOneBy({ id });
   }
 
   @UseInterceptors(CreateUpdateInterceptor)
-  async update(
-    id: string,
-    professor: ProfessorEntity,
-  ): Promise<ProfessorEntity> {
-    try {
-      await this.professorRepository.update(id, professor);
-      return await this.professorRepository.findOneBy({ id });
-    } catch (error) {
-      throw new Error(error.message);
-    }
+  async update(id: string, professorDto: UpdateProfessorDto) {
+    return await this.professorRepository.update(id, professorDto);
   }
 
   async remove(id: string) {

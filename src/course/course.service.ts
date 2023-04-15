@@ -24,58 +24,31 @@ export class CourseService {
 
   @UseInterceptors(CreateUpdateInterceptor)
   async create(courseDto: CreateCourseDto) {
-    try {
-      const professor = await this.professorService.findById(
-        courseDto.professorId,
-      );
-      if (!professor) throw new Error('Professor not found');
+    const professor = await this.professorService.findById(
+      courseDto.professorId,
+    );
+    if (!professor) throw new Error('Professor not found');
 
-      const course = new CourseEntity();
-      course.fullname = courseDto.fullname;
-      course.abbreviation = courseDto.abbreviation;
-      course.description = courseDto.description;
-      course.credits = courseDto.credits;
-      course.professor = professor;
-
-      return await this.courseRepository.save(course);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return await this.courseRepository.save({ ...courseDto, professor });
   }
 
   findPaged(options: IPaginationOptions): Promise<Pagination<CourseEntity>> {
-    try {
-      return paginate<CourseEntity>(this.courseRepository, options);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return paginate<CourseEntity>(this.courseRepository, options);
   }
 
   async findById(id: string) {
-    try {
-      return await this.courseRepository.findOneBy({ id });
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return await this.courseRepository.findOneBy({ id });
   }
 
   async findByProfessorId(id: string) {
-    try {
-      return await this.courseRepository.findBy({
-        professor: { id },
-      });
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return await this.courseRepository.findBy({
+      professor: { id },
+    });
   }
 
   @UseInterceptors(CreateUpdateInterceptor)
   async update(id: string, courseDto: UpdateCourseDto) {
-    try {
-      return this.courseRepository.update(id, courseDto);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return this.courseRepository.update(id, courseDto);
   }
 
   remove(id: number) {

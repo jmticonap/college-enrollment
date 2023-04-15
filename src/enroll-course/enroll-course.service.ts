@@ -26,63 +26,41 @@ export class EnrollCourseService {
 
   @UseInterceptors(CreateUpdateInterceptor)
   async create(enrollCourseDto: CreateEnrollCourseDto) {
-    try {
-      const enrollment = await this.enrollmentService.findById(
-        enrollCourseDto.enrollmentId,
-      );
-      if (!enrollment) throw new Error('Enrollment not found');
+    const enrollment = await this.enrollmentService.findById(
+      enrollCourseDto.enrollmentId,
+    );
+    if (!enrollment) throw new Error('Enrollment not found');
 
-      const course = await this.courseService.findById(
-        enrollCourseDto.courseId,
-      );
-      if (!course) throw new Error('Course not found');
+    const course = await this.courseService.findById(enrollCourseDto.courseId);
+    if (!course) throw new Error('Course not found');
 
-      const enrollcourse = new EnrollCourseEntity();
-      enrollcourse.course = course;
-      enrollcourse.enrollment = enrollment;
+    const enrollcourse = new EnrollCourseEntity();
+    enrollcourse.course = course;
+    enrollcourse.enrollment = enrollment;
 
-      return await this.enrollcourseRepository.save(enrollcourse);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return await this.enrollcourseRepository.save(enrollcourse);
   }
 
   async findPaged(
     options: IPaginationOptions,
   ): Promise<Pagination<EnrollCourseEntity>> {
-    try {
-      return await paginate<EnrollCourseEntity>(
-        this.enrollcourseRepository,
-        options,
-      );
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return await paginate<EnrollCourseEntity>(
+      this.enrollcourseRepository,
+      options,
+    );
   }
 
   async findById(id: string) {
-    try {
-      return await this.enrollcourseRepository.findOneBy({ id });
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return await this.enrollcourseRepository.findOneBy({ id });
   }
 
   async findByEnrollmentId(id: string) {
-    try {
-      return this.enrollcourseRepository.findBy({ enrollmentEntityId: id });
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    return this.enrollcourseRepository.findBy({ enrollmentEntityId: id });
   }
 
   @UseInterceptors(CreateUpdateInterceptor)
-  async update(id: number, enrollCourseDto: UpdateEnrollCourseDto) {
-    try {
-      return await this.enrollcourseRepository.update(id, enrollCourseDto);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+  async update(id: string, enrollCourseDto: UpdateEnrollCourseDto) {
+    return await this.enrollcourseRepository.update(id, enrollCourseDto);
   }
 
   remove(id: number) {
