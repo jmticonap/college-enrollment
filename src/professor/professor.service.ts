@@ -7,7 +7,7 @@ import {
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
 import { ProfessorEntity } from '../entities/professor.entity';
-import { CreateProfessorDto } from './dto/professor.dto';
+import { CreateProfessorDto } from './dto/create-professor.dto';
 import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
 import { ErrorInterceptor } from '../logging/error.interceptor';
 

@@ -1,0 +1,34 @@
+# Use postgres/password user/password credentials
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  backend:
+    image: jmticonap/college-enrollment
+    restart: always
+    environment:
+      - PORT=3000
+      - NODE_ENV=PROD
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=password
+      - DB_PORT=5432
+      - DB_HOST=localhost
+      - DB_NAME=api_product_db
+      - LOG_PATH=/opt/api-product_access.log
+      - REMOTE_API=https://retoolapi.dev/WPKpCW/product
+    ports:
+      - 3000:3000
+    network_mode: "host"
