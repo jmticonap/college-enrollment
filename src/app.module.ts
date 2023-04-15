@@ -12,6 +12,7 @@ import { dataSourceOptions } from './db/data-source';
 import { EnrollCourseModule } from './enroll-course/enroll-course.module';
 import { CourseModule } from './course/course.module';
 import { ConfigModule } from '@nestjs/config';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ConfigModule } from '@nestjs/config';
     EnrollmentModule,
     EnrollCourseModule,
     CourseModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [
