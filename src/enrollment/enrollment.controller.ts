@@ -9,22 +9,24 @@ import {
   Query,
   DefaultValuePipe,
   ParseIntPipe,
+  UsePipes,
+  ValidationPipe,
+  UseInterceptors,
 } from '@nestjs/common';
 import { EnrollmentService } from './enrollment.service';
 import { CreateEnrollmentDto } from './dto/create-enrollment.dto';
 import { UpdateEnrollmentDto } from './dto/update-enrollment.dto';
+import { ErrorInterceptor } from '../logging/error.interceptor';
 
+@UseInterceptors(ErrorInterceptor)
 @Controller('enrollment')
 export class EnrollmentController {
   constructor(private readonly enrollmentService: EnrollmentService) {}
 
+  @UsePipes(new ValidationPipe())
   @Post()
   async create(@Body() createEnrollmentDto: CreateEnrollmentDto) {
-    try {
-      return await this.enrollmentService.create(createEnrollmentDto);
-    } catch (error) {
-      return error;
-    }
+    return await this.enrollmentService.create(createEnrollmentDto);
   }
 
   @Get()
@@ -33,36 +35,25 @@ export class EnrollmentController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
   ) {
     limit = limit > 100 ? 100 : limit;
-    try {
-      return await this.enrollmentService.findPaged({
-        page,
-        limit,
-        route: 'http://localhost:3000/enrollment',
-      });
-    } catch (error) {
-      return error;
-    }
+    return await this.enrollmentService.findPaged({
+      page,
+      limit,
+      route: 'http://localhost:3000/enrollment',
+    });
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    try {
-      return await this.enrollmentService.findById(id);
-    } catch (error) {
-      return error;
-    }
+    return await this.enrollmentService.findById(id);
   }
 
+  @UsePipes(new ValidationPipe())
   @Patch(':id')
   async update(
     @Param('id') id: string,
     @Body() enrollmentDto: UpdateEnrollmentDto,
   ) {
-    try {
-      return await this.enrollmentService.update(id, enrollmentDto);
-    } catch (error) {
-      return error;
-    }
+    return await this.enrollmentService.update(id, enrollmentDto);
   }
 
   @Delete(':id')

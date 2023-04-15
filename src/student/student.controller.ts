@@ -9,24 +9,24 @@ import {
   Query,
   DefaultValuePipe,
   ParseIntPipe,
+  UsePipes,
+  ValidationPipe,
+  UseInterceptors,
 } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
-import { StudentEntity } from '../entities/student.entity';
-import { Pagination } from 'nestjs-typeorm-paginate';
+import { ErrorInterceptor } from '../logging/error.interceptor';
 
+@UseInterceptors(ErrorInterceptor)
 @Controller('student')
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
+  @UsePipes(new ValidationPipe())
   @Post()
   create(@Body() createStudentDto: CreateStudentDto) {
-    try {
-      return this.studentService.create(createStudentDto);
-    } catch (error) {
-      return error;
-    }
+    return this.studentService.create(createStudentDto);
   }
 
   @Get()
@@ -35,33 +35,22 @@ export class StudentController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
   ) {
     limit = limit > 100 ? 100 : limit;
-    try {
-      return this.studentService.findPaged({
-        page,
-        limit,
-        route: 'http://localhost:3000/student',
-      });
-    } catch (error) {
-      return error;
-    }
+    return this.studentService.findPaged({
+      page,
+      limit,
+      route: 'http://localhost:3000/student',
+    });
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    try {
-      return this.studentService.findById(id);
-    } catch (error) {
-      return error;
-    }
+    return this.studentService.findById(id);
   }
 
+  @UsePipes(new ValidationPipe())
   @Patch(':id')
   update(@Param('id') id: string, @Body() studentDto: UpdateStudentDto) {
-    try {
-      return this.studentService.update(id, studentDto);
-    } catch (error) {
-      return error;
-    }
+    return this.studentService.update(id, studentDto);
   }
 
   @Delete(':id')

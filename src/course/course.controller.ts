@@ -9,24 +9,26 @@ import {
   Query,
   DefaultValuePipe,
   ParseIntPipe,
+  UsePipes,
+  ValidationPipe,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { CourseEntity } from '../entities/course.entity';
+import { ErrorInterceptor } from '../logging/error.interceptor';
 
+@UseInterceptors(ErrorInterceptor)
 @Controller('course')
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
+  @UsePipes(new ValidationPipe())
   @Post()
-  create(@Body() createCourseDto: CreateCourseDto) {
-    try {
-      return this.courseService.create(createCourseDto);
-    } catch (error) {
-      return error;
-    }
+  create(@Body() courseDto: CreateCourseDto) {
+    return this.courseService.create(courseDto);
   }
 
   @Get()
@@ -35,42 +37,27 @@ export class CourseController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
   ): Promise<Pagination<CourseEntity>> {
     limit = limit > 100 ? 100 : limit;
-    try {
-      return this.courseService.findPaged({
-        page,
-        limit,
-        route: 'http://localhost:3000/course',
-      });
-    } catch (error) {
-      return error;
-    }
+    return this.courseService.findPaged({
+      page,
+      limit,
+      route: 'http://localhost:3000/course',
+    });
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    try {
-      return this.courseService.findById(id);
-    } catch (error) {
-      return error;
-    }
+    return this.courseService.findById(id);
   }
 
   @Get('/by_professor/:id')
   findByProfessorId(@Param('id') id: string) {
-    try {
-      return this.courseService.findByProfessorId(id);
-    } catch (error) {
-      return error;
-    }
+    return this.courseService.findByProfessorId(id);
   }
 
+  @UsePipes(new ValidationPipe())
   @Patch(':id')
   update(@Param('id') id: string, @Body() courseDto: UpdateCourseDto) {
-    try {
-      return this.courseService.update(id, courseDto);
-    } catch (error) {
-      return error;
-    }
+    return this.courseService.update(id, courseDto);
   }
 
   @Delete(':id')
