@@ -9,9 +9,9 @@ export class CreateEnrollmentDto {
 
   @IsOptional()
   @IsUUID()
-  studentId!: string;
+  studentId?: string;
 
   @IsOptional()
   @IsUUID(4, { each: true })
-  courses!: Array<string>;
+  lstCourse?: Array<string>;
 }
