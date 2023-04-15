@@ -63,7 +63,7 @@ export class EnrollCourseService {
     return await this.enrollcourseRepository.update(id, enrollCourseDto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} enrollCourse`;
   }
 }

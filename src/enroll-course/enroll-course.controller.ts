@@ -58,11 +58,11 @@ export class EnrollCourseController {
     @Param('id') id: string,
     @Body() enrollCourseDto: UpdateEnrollCourseDto,
   ) {
-    return this.enrollCourseService.update(+id, enrollCourseDto);
+    return this.enrollCourseService.update(id, enrollCourseDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.enrollCourseService.remove(+id);
+    return this.enrollCourseService.remove(id);
   }
 }
