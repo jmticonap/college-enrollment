@@ -20,10 +20,10 @@ export class CourseEntity {
   @Column({ nullable: false })
   fullname: string;
 
-  @Column({ unique: true })
+  @Column({ nullable: false, unique: true })
   abbreviation: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, update: false })
   credits: number;
 
   @Column({ nullable: true })

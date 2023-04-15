@@ -19,14 +19,14 @@ export class EnrollCourseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'enum', enum: CourseState, default: CourseState.TAKED })
+  @Column({ type: 'enum', enum: CourseState, default: null, nullable: true })
   state: CourseState;
 
   @Column({ update: false })
-  public courseEntityId: string;
+  courseEntityId: string;
 
   @Column({ update: false })
-  public enrollmentEntityId: string;
+  enrollmentEntityId: string;
 
   @ManyToOne(() => CourseEntity, (course) => course.enrollcourses)
   @JoinColumn({ name: 'courseEntityId' })
