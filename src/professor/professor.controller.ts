@@ -45,10 +45,7 @@ export class ProfessorController {
 
   @UsePipes(new ValidationPipe())
   @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() professor: ProfessorEntity,
-  ): Promise<ProfessorEntity> {
+  async update(@Param('id') id: string, @Body() professor: ProfessorEntity) {
     return this.professorService.update(id, professor);
   }
 
