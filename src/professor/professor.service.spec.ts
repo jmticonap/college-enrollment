@@ -1,5 +1,5 @@
 import { ProfessorService } from './professor.service';
-import dataSource from '../db/data-source';
+import dataSource from '../db/dataSource';
 import { ProfessorEntity } from '../entities/professor.entity';
 
 describe('ProfessorService', () => {

@@ -1,4 +1,4 @@
-import dataSource from '../db/data-source';
+import dataSource from '../db/dataSource';
 import { EnrollmentService } from './enrollment.service';
 import { StudentService } from '../student/student.service';
 import { StudentEntity } from '../entities/student.entity';

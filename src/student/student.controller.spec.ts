@@ -1,6 +1,6 @@
 import { StudentController } from './student.controller';
 import { StudentService } from './student.service';
-import dataSource from '../db/data-source';
+import dataSource from '../db/dataSource';
 import { StudentEntity } from '../entities/student.entity';
 
 describe('StudentController', () => {

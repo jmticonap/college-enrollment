@@ -1,5 +1,5 @@
 import { CourseEntity } from '../entities/course.entity';
-import dataSource from '../db/data-source';
+import dataSource from '../db/dataSource';
 import { CourseService } from './course.service';
 import { ProfessorService } from '../professor/professor.service';
 import { ProfessorEntity } from '../entities/professor.entity';

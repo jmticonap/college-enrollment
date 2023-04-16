@@ -8,9 +8,11 @@ export const dataSourceOptions: DataSourceOptions = {
   username: env.DB_USERNAME ?? 'postgres',
   password: env.DB_PASSWORD ?? 'password',
   database: env.DB_NAME ?? 'college-enrolment-db',
-  entities: ['dist/**/*.entity.js'],
+  entities: ['./dist/**/*.entity.js'],
+  migrations: ['./dist/db/migrations/*.js'],
+  migrationsTableName: 'mgt',
   poolSize: parseInt(env.DB_POOL_SIZE, 10) ?? 10,
-  synchronize: !['dev', 'test'].includes(env.NODE_ENV),
+  synchronize: false, // ['dev', 'test'].includes(env.NODE_ENV),
 };
 
 const dataSource = new DataSource(dataSourceOptions);

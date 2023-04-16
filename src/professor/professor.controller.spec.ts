@@ -1,7 +1,7 @@
 import { ProfessorController } from './professor.controller';
 import { ProfessorService } from './professor.service';
 import { ProfessorEntity } from '../entities/professor.entity';
-import dataSource from '../db/data-source';
+import dataSource from '../db/dataSource';
 
 describe('ProfessorController', () => {
   let service: ProfessorService;
