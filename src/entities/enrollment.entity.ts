@@ -5,6 +5,7 @@ import {
   OneToMany,
   ManyToMany,
   ManyToOne,
+  JoinTable,
 } from 'typeorm';
 import { EnrollCourseEntity } from './enrollcourse.entity';
 import { CourseEntity } from './course.entity';
@@ -22,12 +23,26 @@ export class EnrollmentEntity {
   description: string; //SEM-1-2023
 
   @ManyToOne(() => StudentEntity, (student) => student.enrollments, {
-    onDelete: 'CASCADE',
+    // onDelete: 'CASCADE',
+    eager: true,
   })
   student: StudentEntity;
 
   @ManyToMany(() => CourseEntity, (course) => course.enrollments, {
-    onDelete: 'CASCADE',
+    // onDelete: 'CASCADE',
+    eager: true,
+  })
+
+  /**
+   * TODO
+   * The db:init can not create schema with @JoinTable decorator
+   * but after normal creation, turnming back decorator services
+   * fetch successfully courses.
+   */
+  @JoinTable({
+    inverseJoinColumn: { name: 'courseId' },
+    joinColumn: { name: 'enrollmentId' },
+    name: 'enroll_course',
   })
   courses: CourseEntity[];
 

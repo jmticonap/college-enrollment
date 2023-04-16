@@ -55,7 +55,7 @@ export class EnrollCourseService {
   }
 
   async findByEnrollmentId(id: string) {
-    return this.enrollcourseRepository.findBy({ enrollmentEntityId: id });
+    return this.enrollcourseRepository.findBy({ enrollment: { id } });
   }
 
   @UseInterceptors(CreateUpdateInterceptor)

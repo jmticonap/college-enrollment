@@ -1,10 +1,5 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import 'reflect-metadata';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { CourseEntity } from './course.entity';
 import { EnrollmentEntity } from './enrollment.entity';
 
@@ -14,7 +9,7 @@ export enum CourseState {
   DISAPPROVED = 3,
 }
 
-@Entity({ name: 'enroll_course' })
+@Entity('enroll_course')
 export class EnrollCourseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -22,19 +17,19 @@ export class EnrollCourseEntity {
   @Column({ type: 'enum', enum: CourseState, default: null, nullable: true })
   state: CourseState;
 
-  @Column({ update: false })
-  courseEntityId: string;
+  // @Column({ update: false })
+  // courseEntityId: string;
 
-  @Column({ update: false })
-  enrollmentEntityId: string;
+  // @Column({ update: false })
+  // enrollmentEntityId: string;
 
-  @ManyToOne(() => CourseEntity, (course) => course.enrollcourses)
-  @JoinColumn({ name: 'courseEntityId' })
+  @ManyToOne(() => CourseEntity, (course) => course.enrollcourses, {
+    eager: true,
+  })
   course: CourseEntity;
 
   @ManyToOne(() => EnrollmentEntity, (enrollment) => enrollment.enrollcourses, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'enrollmentEntityId' })
   enrollment: EnrollmentEntity;
 }
