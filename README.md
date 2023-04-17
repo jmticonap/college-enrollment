@@ -1,3 +1,119 @@
+# COLLEGE-ENROLLMENT API
+
+## Introduction
+
+This API makes control about university enrollments. Have four entitys; course, professor, student, enrollment.
+
+## Resources
+
+### Professor [/professor]
+
+#### Fetch a page with an array of professors objects [GET]
+
++ Response 200 (application/json)
+
+```
+{
+	"items": [
+		{
+			"id": "3d14af50-3951-4e1b-94c6-061853c2fcb5",
+			"firstname": "Michael",
+			"lastname": "Taylor",
+			"dni": "90123456",
+			"phone": "+1 555 901-2345",
+			"address": "582 Walnut St, Anytown, USA"
+		},
+		{
+			"id": "130a2e85-a084-4f36-8112-095d5bcfc80f",
+			"firstname": "Ada Haydee",
+			"lastname": "Pacheco Ismodes",
+			"dni": "30824022",
+			"phone": "+51 555 012 345",
+			"address": "506 Mariscal Castilla Av, Mollendo, Perú"
+		}
+	],
+	"meta": {
+		"totalItems": 10,
+		"itemCount": 10,
+		"itemsPerPage": 10,
+		"totalPages": 1,
+		"currentPage": 1
+	},
+	"links": {
+		"first": "http://localhost:3000/professor?limit=10",
+		"previous": "",
+		"next": "",
+		"last": "http://localhost:3000/professor?page=1&limit=10"
+	}
+}
+```
+
+#### Create new professor [POST]
+
++ Request (application/json)
+```
+{
+	"firstname": "John",
+  "lastname": "Doe",
+  "dni": "12345678",
+  "phone": "+53 942 411 785",
+	"address": "Av. Mariscal Castilla 506"
+}
+```
+
++ Response 201 (application/json)
+```
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "dni": "12345678",
+  "phone": "+53 942 411 785",
+  "address": "Av. Mariscal Castilla 506"
+  "id": "f75556ec-ce27-489b-9c3e-49d186eea0c2"
+}
+```
+
+### Profesor [/professor/{id}]
+
+#### Find a professor [GET]
+
++ Parameters
+    + id (required, string, `f75556ec-ce27-489b-9c3e-49d186eea0c2`) ... Professor ID.
+
++ Response 200 (application/json)
+```
+{
+  "id": "f75556ec-ce27-489b-9c3e-49d186eea0c2"
+  "firstname": "John",
+  "lastname": "Doe",
+  "dni": "12345678",
+  "phone": "+53 942 411 785",
+  "address": "Av. Mariscal Castilla 506"
+}
+```
+
+#### Update professor [PATCH]
+
++ Parameters
+    + id (required, string, `f75556ec-ce27-489b-9c3e-49d186eea0c2`) ... Professor ID.
+
++ Request (application/json)
+```
+{
+  "dni": "99999998"
+}
+```
+
++ Response 200 (application/json)
+```
+{
+	"generatedMaps": [],
+	"raw": [],
+	"affected": 1
+}
+```
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
@@ -71,3 +187,6 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
+
