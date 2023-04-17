@@ -28,13 +28,9 @@ export class EnrollmentEntity {
   })
   student: StudentEntity;
 
-  @ManyToMany(() => CourseEntity, (course) => course.enrollments, {
-    // onDelete: 'CASCADE',
-    eager: true,
-  })
-
+  @ManyToMany(() => CourseEntity)
   /**
-   * TODO
+   * FIX
    * The db:init can not create schema with @JoinTable decorator
    * but after normal creation, turnming back decorator services
    * fetch successfully courses.

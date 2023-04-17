@@ -1,3 +1,64 @@
+export const dbSchema = {
+  professor: `
+  CREATE TABLE public.professor (
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    firstname varchar NOT NULL,
+    lastname varchar NOT NULL,
+    dni varchar NOT NULL,
+    phone varchar NULL,
+    address varchar NULL,
+    CONSTRAINT "PK_39a6c8f16280dc3bc3ffdc41e02" PRIMARY KEY (id),
+    CONSTRAINT "UQ_cbe54626844e25ae4c4d64ea6c3" UNIQUE (dni)
+  );
+  `,
+  student: `
+  CREATE TABLE public.student (
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    firstname varchar NOT NULL,
+    lastname varchar NOT NULL,
+    dni varchar NOT NULL,
+    phone varchar NULL,
+    address varchar NULL,
+    CONSTRAINT "PK_3d8016e1cb58429474a3c041904" PRIMARY KEY (id),
+    CONSTRAINT "UQ_e7c9aafa64237e394ec4d8a4f7b" UNIQUE (dni)
+  );
+  `,
+  course: `
+  CREATE TABLE public.course (
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    fullname varchar NOT NULL,
+    abbreviation varchar NOT NULL,
+    credits int4 NOT NULL,
+    description varchar NULL,
+    "professorId" uuid NULL,
+    CONSTRAINT "PK_bf95180dd756fd204fb01ce4916" PRIMARY KEY (id),
+    CONSTRAINT "UQ_7e06972c6daa6428c24aa6fbaa7" UNIQUE (abbreviation),
+    CONSTRAINT "FK_2f6d4e27887411ddb6ed55848f1" FOREIGN KEY ("professorId") REFERENCES public.professor(id)
+  );
+  `,
+  enrollment: `
+  CREATE TABLE public.enrollment (
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    "program" varchar NOT NULL,
+    description varchar NOT NULL,
+    "studentId" uuid NULL,
+    CONSTRAINT "PK_7e200c699fa93865cdcdd025885" PRIMARY KEY (id),
+    CONSTRAINT "FK_5ce702e71b98cc1bb37b81e83d8" FOREIGN KEY ("studentId") REFERENCES public.student(id)
+  );
+  `,
+  enrollCourse: `
+  CREATE TABLE public.enroll_course (
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    state public."enroll_course_state_enum" NULL,
+    "courseId" uuid NULL,
+    "enrollmentId" uuid NULL,
+    CONSTRAINT "PK_42dc132efd30f60930766b20331" PRIMARY KEY (id),
+    CONSTRAINT "FK_130f77463ab072249b6a8f32572" FOREIGN KEY ("courseId") REFERENCES public.course(id),
+    CONSTRAINT "FK_d7c8f0d3f8c74aab57b15e275e7" FOREIGN KEY ("enrollmentId") REFERENCES public.enrollment(id) ON DELETE CASCADE
+  );
+  `,
+};
+
 export const dbData = {
   professors: `
   INSERT INTO public.professor (id,firstname,lastname,dni,phone,address) VALUES

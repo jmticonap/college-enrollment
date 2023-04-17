@@ -4,11 +4,9 @@ import {
   Column,
   ManyToOne,
   OneToMany,
-  ManyToMany,
 } from 'typeorm';
 import { ProfessorEntity } from './professor.entity';
 import { EnrollCourseEntity } from './enrollcourse.entity';
-import { EnrollmentEntity } from './enrollment.entity';
 
 @Entity('course')
 export class CourseEntity {
@@ -29,9 +27,6 @@ export class CourseEntity {
 
   @ManyToOne(() => ProfessorEntity, (professor) => professor.courses)
   professor: ProfessorEntity;
-
-  @ManyToMany(() => EnrollmentEntity, (enrollment) => enrollment.courses)
-  enrollments: EnrollmentEntity[];
 
   @OneToMany(() => EnrollCourseEntity, (enrollcourse) => enrollcourse.course)
   enrollcourses: EnrollCourseEntity[];

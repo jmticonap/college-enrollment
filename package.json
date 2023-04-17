@@ -21,7 +21,7 @@
     "typeorm": "npm run build && npx typeorm -d ./dist/db/dataSource.js",
     "migration:sync": "npm run typeorm -- schema:sync",
     "migration:generate": "npm run typeorm -- migration:generate",
-    "migration:create": "npm run typeorm -- migration:create",
+    "migration:create": "npx typeorm migration:create",
     "migration:run": "npm run typeorm -- migration:run",
     "db:init": "npm run migration:sync && npm run migration:run"
   },

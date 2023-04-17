@@ -1,5 +1,11 @@
 import 'reflect-metadata';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { CourseEntity } from './course.entity';
 import { EnrollmentEntity } from './enrollment.entity';
 
@@ -26,10 +32,12 @@ export class EnrollCourseEntity {
   @ManyToOne(() => CourseEntity, (course) => course.enrollcourses, {
     eager: true,
   })
+  @JoinColumn({ name: 'courseId' })
   course: CourseEntity;
 
   @ManyToOne(() => EnrollmentEntity, (enrollment) => enrollment.enrollcourses, {
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'enrollmentId' })
   enrollment: EnrollmentEntity;
 }
