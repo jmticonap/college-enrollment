@@ -57,4 +57,9 @@ export class StudentController {
   remove(@Param('id') id: string) {
     return this.studentService.remove(id);
   }
+
+  @Get('/dni/:dni')
+  fetchRemoteStudentByDni(@Param('dni') dni: string) {
+    return this.studentService.fetchRemoteStudentByDni(dni);
+  }
 }

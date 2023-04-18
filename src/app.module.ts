@@ -14,6 +14,7 @@ import { dataSourceOptions } from './db/dataSource';
 import { EnrollCourseModule } from './enroll-course/enroll-course.module';
 import { CourseModule } from './course/course.module';
 import { HealthModule } from './health/health.module';
+import { MetadataModule } from './metadata/metadata.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { HealthModule } from './health/health.module';
     EnrollCourseModule,
     CourseModule,
     HealthModule,
+    MetadataModule,
   ],
   controllers: [AppController],
   providers: [

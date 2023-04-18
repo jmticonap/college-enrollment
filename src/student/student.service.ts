@@ -11,6 +11,9 @@ import { UpdateStudentDto } from './dto/update-student.dto';
 import { StudentEntity } from '../entities/student.entity';
 import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
 import { ErrorInterceptor } from '../logging/error.interceptor';
+import { getDiference } from './helper';
+import { MetadataService } from '../metadata/metadata.service';
+import { MetadataEntity } from '../entities/metadata.entity';
 
 @UseInterceptors(ErrorInterceptor)
 @Injectable()
@@ -18,11 +21,30 @@ export class StudentService {
   constructor(
     @InjectRepository(StudentEntity)
     private studentRepository: Repository<StudentEntity>,
+    private metadataService: MetadataService,
   ) {}
 
   @UseInterceptors(CreateUpdateInterceptor)
   async create(studentDto: CreateStudentDto) {
-    return await this.studentRepository.save(studentDto);
+    const remoteStudent = await this.fetchRemoteStudentByDni(studentDto.dni);
+    if (!remoteStudent)
+      throw new Error(`Student with dni: ${studentDto.dni} does not exist`);
+
+    await this.studentRepository.save(studentDto);
+    studentDto['metadata'] = [];
+
+    const metadata = getDiference(studentDto, remoteStudent);
+    for (const key in metadata) {
+      const meta = new MetadataEntity();
+      meta.key = key;
+      meta.value = metadata[key];
+      await this.metadataService.create(meta);
+
+      studentDto.metadata.push(meta);
+    }
+    await this.studentRepository.save(studentDto);
+
+    return studentDto;
   }
 
   async findPaged(
@@ -42,5 +64,12 @@ export class StudentService {
 
   async remove(id: string) {
     return await this.studentRepository.delete(id);
+  }
+
+  async fetchRemoteStudentByDni(dni: string) {
+    const rowData = await fetch(`${process.env.API_VALIDATOR_PATH}?dni=${dni}`);
+    const data = await rowData.json();
+
+    return data.length > 0 ? data[0] : null;
   }
 }

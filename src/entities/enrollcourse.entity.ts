@@ -23,12 +23,6 @@ export class EnrollCourseEntity {
   @Column({ type: 'enum', enum: CourseState, default: null, nullable: true })
   state: CourseState;
 
-  // @Column({ update: false })
-  // courseEntityId: string;
-
-  // @Column({ update: false })
-  // enrollmentEntityId: string;
-
   @ManyToOne(() => CourseEntity, (course) => course.enrollcourses, {
     eager: true,
   })
