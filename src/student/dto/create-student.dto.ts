@@ -4,7 +4,7 @@ import {
   IsOptional,
   Length,
 } from 'class-validator';
-import { MetadataEntity } from 'src/entities/metadata.entity';
+import { MetadataEntity } from '../../entities/metadata.entity';
 
 export class CreateStudentDto {
   @IsNotEmpty({ message: "Firstname can't be empty" })

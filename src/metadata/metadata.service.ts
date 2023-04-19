@@ -12,8 +12,9 @@ export class MetadataService {
     private readonly metadataRepository: Repository<MetadataEntity>,
   ) {}
 
-  create(createMetadataDto: CreateMetadatumDto) {
-    return this.metadataRepository.save(createMetadataDto);
+  async create(createMetadataDto: CreateMetadatumDto) {
+    if (!createMetadataDto) throw new Error('The object can not be null');
+    return await this.metadataRepository.save(createMetadataDto);
   }
 
   findOne(id: number) {

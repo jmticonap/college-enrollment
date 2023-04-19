@@ -35,11 +35,11 @@ export class EnrollmentEntity {
    * but after normal creation, turnming back decorator services
    * fetch successfully courses.
    */
-  @JoinTable({
-    inverseJoinColumn: { name: 'courseId' },
-    joinColumn: { name: 'enrollmentId' },
-    name: 'enroll_course',
-  })
+  // @JoinTable({
+  //   inverseJoinColumn: { name: 'courseId' },
+  //   joinColumn: { name: 'enrollmentId' },
+  //   name: 'enroll_course',
+  // })
   courses: CourseEntity[];
 
   @OneToMany(
