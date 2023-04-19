@@ -24,6 +24,8 @@ export default registerAs(
       CourseEntity,
       EnrollCourseEntity,
     ],
+    migrations: ['./dist/db/migrations/*.js'],
+    migrationsTableName: 'mgt',
     synchronize: !['prod', 'dev'].includes(process.env.NODE_ENV),
     dropSchema: !['prod', 'dev'].includes(process.env.NODE_ENV),
   }),
