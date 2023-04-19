@@ -1,5 +1,6 @@
 export const dbSchema = {
   professor: `
+  DROP TABLE IF EXISTS public.professor;
   CREATE TABLE public.professor (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     firstname varchar NOT NULL,
@@ -12,6 +13,7 @@ export const dbSchema = {
   );
   `,
   student: `
+  DROP TABLE IF EXISTS public.student;
   CREATE TABLE public.student (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     firstname varchar NOT NULL,
@@ -24,6 +26,7 @@ export const dbSchema = {
   );
   `,
   course: `
+  DROP TABLE IF EXISTS public.course;
   CREATE TABLE public.course (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     fullname varchar NOT NULL,
@@ -37,6 +40,7 @@ export const dbSchema = {
   );
   `,
   metadata: `
+  DROP TABLE IF EXISTS public.metadata;
   CREATE TABLE public.metadata (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     "key" varchar NOT NULL,
@@ -47,6 +51,7 @@ export const dbSchema = {
   );
   `,
   enrollment: `
+  DROP TABLE IF EXISTS public.enrollment;
   CREATE TABLE public.enrollment (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     "program" varchar NOT NULL,
@@ -57,6 +62,9 @@ export const dbSchema = {
   );
   `,
   enrollCourse: `
+  DROP TYPE IF EXISTS enroll_course_state_enum;
+  CREATE TYPE enroll_course_state_enum AS ENUM ('1', '2', '3');
+  DROP TABLE IF EXISTS public.enroll_course;
   CREATE TABLE public.enroll_course (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     state public."enroll_course_state_enum" NULL,
