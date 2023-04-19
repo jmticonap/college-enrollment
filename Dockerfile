@@ -18,6 +18,4 @@ COPY . .
 EXPOSE 3000
 RUN npm run build
 
-# TODO:
-# ADD migration command
-CMD ["npm","run", "start:prod"]
+CMD ["npm","run", "prod"]

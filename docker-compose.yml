@@ -2,33 +2,31 @@
 version: '3.1'
 
 services:
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: password
-    ports:
-      - 5432:5432
+  # db:
+  #   image: postgres
+  #   restart: always
+  #   environment:
+  #     POSTGRES_PASSWORD: password
+  #   ports:
+  #     - 5432:5432
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
 
   backend:
     image: jmticonap/college-enrollment
     restart: always
     environment:
-      - PORT=3000
-      - NODE_ENV=PROD
+      - NODE_ENV=prod
+      - APP_PORT=3000
+      - DB_HOST=containers-us-west-110.railway.app
+      - DB_PORT=7076
       - DB_USERNAME=postgres
-      - DB_PASSWORD=password
-      - DB_PORT=5432
-      - DB_HOST=localhost
-      - DB_NAME=api_product_db
-      - LOG_PATH=/opt/api-product_access.log
-      - REMOTE_API=https://retoolapi.dev/WPKpCW/product
+      - DB_PASSWORD=Ts430DgkCNvXJ4wdk0FS
+      - DB_NAME=railway
     ports:
       - 3000:3000
-    network_mode: "host"
+    network_mode: 'host'
