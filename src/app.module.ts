@@ -10,19 +10,25 @@ import { ErrorInterceptor } from './logging/error.interceptor';
 import { ProfessorModule } from './professor/professor.module';
 import { StudentModule } from './student/student.module';
 import { EnrollmentModule } from './enrollment/enrollment.module';
-import { dataSourceOptions } from './db/dataSource';
 import { EnrollCourseModule } from './enroll-course/enroll-course.module';
 import { CourseModule } from './course/course.module';
 import { HealthModule } from './health/health.module';
 import { MetadataModule } from './metadata/metadata.module';
+import { MetadataService } from './metadata/metadata.service';
+import ormConfigDev from './config/orm.config.dev';
+import ormConfigProd from './config/orm.config.prod';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env.dev',
+      envFilePath: `${process.env.NODE_ENV}.env`,
       isGlobal: true,
+      load: [ormConfigDev],
     }),
-    TypeOrmModule.forRoot(dataSourceOptions),
+    TypeOrmModule.forRootAsync({
+      useFactory:
+        process.env.NODE_ENV === 'prod' ? ormConfigProd : ormConfigDev,
+    }),
     ProfessorModule,
     StudentModule,
     EnrollmentModule,
@@ -34,6 +40,7 @@ import { MetadataModule } from './metadata/metadata.module';
   controllers: [AppController],
   providers: [
     AppService,
+    MetadataService,
     {
       provide: APP_INTERCEPTOR,
       useClass: CreateUpdateInterceptor,
