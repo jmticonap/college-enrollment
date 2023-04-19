@@ -55,7 +55,7 @@ describe('AppController (e2e)', () => {
     return res;
   });
 
-  it('/student (GET)', async () => {
+  it('/student (GET) empty db', async () => {
     const res = await request(app.getHttpServer())
       .get('/student')
       .expect(200)
@@ -64,7 +64,7 @@ describe('AppController (e2e)', () => {
     return res;
   });
 
-  it('/student (GET)', async () => {
+  it('/student (GET) populate db', async () => {
     await loadFixtures('init-data.sql');
 
     const res = await request(app.getHttpServer())
