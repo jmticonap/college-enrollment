@@ -2,19 +2,19 @@
 version: '3.1'
 
 services:
-  # db:
-  #   image: postgres
-  #   restart: always
-  #   environment:
-  #     POSTGRES_PASSWORD: password
-  #   ports:
-  #     - 5432:5432
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
 
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 
   backend:
     image: jmticonap/college-enrollment
@@ -22,11 +22,11 @@ services:
     environment:
       - NODE_ENV=prod
       - APP_PORT=3000
-      - DB_HOST=containers-us-west-110.railway.app
-      - DB_PORT=7076
+      - DB_HOST=localhost
+      - DB_PORT=5432
       - DB_USERNAME=postgres
-      - DB_PASSWORD=Ts430DgkCNvXJ4wdk0FS
-      - DB_NAME=railway
+      - DB_PASSWORD=password
+      - DB_NAME=college-enrollment-db
     ports:
       - 3000:3000
     network_mode: 'host'
