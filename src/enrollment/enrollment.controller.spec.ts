@@ -28,8 +28,4 @@ describe('EnrollmentService', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
-
-  it('1 + 1', () => {
-    expect(1 + 1).toBe(2);
-  });
 });

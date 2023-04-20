@@ -15,7 +15,6 @@ import { EnrollCourseModule } from './enroll-course/enroll-course.module';
 import { CourseModule } from './course/course.module';
 import { HealthModule } from './health/health.module';
 import { MetadataModule } from './metadata/metadata.module';
-import { MetadataService } from './metadata/metadata.service';
 import ormConfigDev from './config/orm.config.dev';
 import ormConfigProd from './config/orm.config.prod';
 import CacheConfigService from './cache/cacheConfig.service';
@@ -46,7 +45,6 @@ import CacheConfigService from './cache/cacheConfig.service';
   controllers: [AppController],
   providers: [
     AppService,
-    MetadataService,
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,

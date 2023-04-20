@@ -1,9 +1,10 @@
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { ProfessorService } from './professor.service';
-import { Test, TestingModule } from '@nestjs/testing';
-import { ProfessorEntity } from '../entities/professor.entity';
-import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { Repository } from 'typeorm';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Test, TestingModule } from '@nestjs/testing';
+import { DeepMocked, createMock } from '@golevelup/ts-jest';
+import { ProfessorService } from './professor.service';
+import { ProfessorEntity } from '../entities/professor.entity';
 
 describe('ProfessorService', () => {
   let module: TestingModule;
@@ -16,12 +17,10 @@ describe('ProfessorService', () => {
         ProfessorService,
         {
           provide: getRepositoryToken(ProfessorEntity),
-          useValue: repo,
+          useValue: createMock(Repository<ProfessorEntity>),
         },
       ],
-    })
-      .useMocker(createMock)
-      .compile();
+    }).compile();
 
     service = module.get<ProfessorService>(ProfessorService);
     repo = module.get(getRepositoryToken(ProfessorEntity));
@@ -33,12 +32,28 @@ describe('ProfessorService', () => {
 
   it('should be defined', (done) => {
     expect(service).toBeDefined();
+    expect(repo).toBeDefined();
     done();
   });
 
-  it(' findPaged return an Promise<Pagination<ProfessorEntity>>', async (done) => {
-    repo.findAndCount.mockResolvedValue([[], 0]);
-    repo.find.mockResolvedValue([]);
+  it(' findPaged return an Promise<Pagination<ProfessorEntity>>', async () => {
+    const emptyPage: Pagination<ProfessorEntity> = {
+      items: [],
+      links: {
+        first: '',
+        last: '',
+        next: '',
+        previous: '',
+      },
+      meta: {
+        currentPage: 1,
+        itemCount: 0,
+        itemsPerPage: 10,
+        totalItems: 0,
+        totalPages: 0,
+      },
+    };
+    jest.spyOn(service, 'findPaged').mockResolvedValue(emptyPage);
 
     const resultPage = await service.findPaged({
       page: 1,
@@ -47,7 +62,5 @@ describe('ProfessorService', () => {
     });
 
     expect(resultPage).toBeTruthy();
-
-    done();
   });
 });

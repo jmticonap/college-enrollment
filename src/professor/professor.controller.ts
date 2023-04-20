@@ -18,7 +18,9 @@ import { Pagination } from 'nestjs-typeorm-paginate';
 import { ProfessorEntity } from '../entities/professor.entity';
 import { ProfessorService } from './professor.service';
 import { ErrorInterceptor } from '../logging/error.interceptor';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
+@UseInterceptors(CacheInterceptor)
 @UseInterceptors(ErrorInterceptor)
 @Controller('professor')
 export class ProfessorController {
@@ -39,7 +41,7 @@ export class ProfessorController {
 
   @UsePipes(new ValidationPipe())
   @Post()
-  save(@Body() createProfessor: CreateProfessorDto): object {
+  create(@Body() createProfessor: CreateProfessorDto): object {
     return this.professorService.create(createProfessor);
   }
 

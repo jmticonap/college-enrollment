@@ -1,4 +1,4 @@
-import { Injectable, UseInterceptors } from '@nestjs/common';
+import { Injectable, NotFoundException, UseInterceptors } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -25,7 +25,7 @@ export class EnrollmentService {
   @UseInterceptors(CreateUpdateInterceptor)
   async create(enrollmentDto: CreateEnrollmentDto) {
     const student = await this.studentService.findById(enrollmentDto.studentId);
-    if (!student) throw new Error('Student not found');
+    if (!student) throw new NotFoundException('Student not found');
 
     return this.enrollmentRepository.save({ ...enrollmentDto, student });
   }

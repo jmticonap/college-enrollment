@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Injectable, UseInterceptors } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CreateMetadatumDto } from './dto/create-metadatum.dto';
 import { UpdateMetadatumDto } from './dto/update-metadatum.dto';
 import { MetadataEntity } from '../entities/metadata.entity';
+import { CreateUpdateInterceptor } from '../logging/createUpdate.interceptor';
 
 @Injectable()
 export class MetadataService {
@@ -12,8 +13,8 @@ export class MetadataService {
     private readonly metadataRepository: Repository<MetadataEntity>,
   ) {}
 
+  @UseInterceptors(CreateUpdateInterceptor)
   async create(createMetadataDto: CreateMetadatumDto) {
-    if (!createMetadataDto) throw new Error('The object can not be null');
     return await this.metadataRepository.save(createMetadataDto);
   }
 

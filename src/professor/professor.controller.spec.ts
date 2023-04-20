@@ -59,7 +59,7 @@ describe('ProfessorController', () => {
       .spyOn(service, 'create')
       .mockImplementation(() => Promise.resolve(getOneResult));
 
-    const newProfessor = await controller.save({
+    const newProfessor = await controller.create({
       firstname: '',
       lastname: '',
       address: '',

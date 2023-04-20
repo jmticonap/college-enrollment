@@ -42,3 +42,5 @@ src/program/
 prod.env
 
 package-lock.json
+
+checklist.txt

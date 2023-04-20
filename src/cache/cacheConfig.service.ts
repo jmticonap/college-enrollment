@@ -10,6 +10,7 @@ class CacheConfigService implements CacheOptionsFactory {
   createCacheOptions(): CacheModuleOptions {
     return {
       ttl: Number(env.CACHE_TTL) || 2000,
+      isGlobal: true,
     };
   }
 }

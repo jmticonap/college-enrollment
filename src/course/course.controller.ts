@@ -1,3 +1,4 @@
+import { Pagination } from 'nestjs-typeorm-paginate';
 import {
   Controller,
   Get,
@@ -13,13 +14,14 @@ import {
   ValidationPipe,
   UseInterceptors,
 } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { Pagination } from 'nestjs-typeorm-paginate';
 import { CourseEntity } from '../entities/course.entity';
 import { ErrorInterceptor } from '../logging/error.interceptor';
 
+@UseInterceptors(CacheInterceptor)
 @UseInterceptors(ErrorInterceptor)
 @Controller('course')
 export class CourseController {
