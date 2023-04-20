@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -17,9 +18,14 @@ import { MetadataModule } from './metadata/metadata.module';
 import { MetadataService } from './metadata/metadata.service';
 import ormConfigDev from './config/orm.config.dev';
 import ormConfigProd from './config/orm.config.prod';
+import CacheConfigService from './cache/cacheConfig.service';
 
 @Module({
   imports: [
+    CacheModule.registerAsync({
+      isGlobal: true,
+      useClass: CacheConfigService,
+    }),
     ConfigModule.forRoot({
       envFilePath: `${process.env.NODE_ENV}.env`,
       isGlobal: true,
@@ -41,6 +47,10 @@ import ormConfigProd from './config/orm.config.prod';
   providers: [
     AppService,
     MetadataService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
     {
       provide: APP_INTERCEPTOR,
       useClass: CreateUpdateInterceptor,
