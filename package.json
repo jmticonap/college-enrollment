@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "NODE_ENV=test jest --config ./test/jest-e2e.json",
-    "typeorm": "npm run build && npx typeorm -d ./dist/db/dataSource.js",
+    "typeorm": "npm run build && npx typeorm-ts-node-commonjs -d ./dist/data-source.js",
     "migration:sync": "npm run typeorm -- schema:sync",
     "migration:generate": "npm run typeorm -- migration:generate",
     "migration:create": "npx typeorm migration:create",
