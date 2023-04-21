@@ -1,25 +1,30 @@
+import { createWriteStream, existsSync } from 'node:fs';
+import * as path from 'node:path';
+import { Observable, tap } from 'rxjs';
 import {
   CallHandler,
   ExecutionContext,
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { createWriteStream } from 'fs';
-import { Observable, tap } from 'rxjs';
 
 @Injectable()
 export class CreateUpdateInterceptor implements NestInterceptor {
-  log_path = 'src/logging/logs.log';
+  logFileName = 'logs.log';
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
     const method = request.method;
+    if (method === 'GET') return next.handle();
     const url = request.url;
     const now = new Date();
+    const fullLogPath =
+      process.env.LOG_PATH ?? path.join(__dirname, this.logFileName);
+    const fileFlag = existsSync(fullLogPath) ? 'a' : 'w';
 
     const persistLog = (logMessage: string): void => {
-      createWriteStream(process.env.LOG_PATH ?? this.log_path, {
-        flags: 'a',
+      createWriteStream(fullLogPath, {
+        flags: fileFlag,
       }).write(logMessage + '\n');
     };
 
