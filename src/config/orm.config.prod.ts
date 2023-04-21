@@ -24,7 +24,7 @@ export default registerAs(
       CourseEntity,
       EnrollCourseEntity,
     ],
-    migrations: ['./dist/db/migrations/*.js'],
+    migrations: ['dist/migration/*.js'],
     migrationsTableName: 'mgt',
     synchronize: false,
     dropSchema: false,

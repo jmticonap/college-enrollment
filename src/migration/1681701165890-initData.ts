@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { dbData } from '../initData';
+import { dbData } from '../db/initData';
 
 export class InitData1681701165890 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
