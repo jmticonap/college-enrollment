@@ -1,4 +1,4 @@
-import { Injectable, UseInterceptors } from '@nestjs/common';
+import { Injectable, NotFoundException, UseInterceptors } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -27,7 +27,7 @@ export class CourseService {
     const professor = await this.professorService.findById(
       courseDto.professorId,
     );
-    if (!professor) throw new Error('Professor not found');
+    if (!professor) throw new NotFoundException('Professor not found');
 
     return await this.courseRepository.save({ ...courseDto, professor });
   }
