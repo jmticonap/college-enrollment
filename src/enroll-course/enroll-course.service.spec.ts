@@ -1,41 +1,57 @@
 import { Repository } from 'typeorm';
-import { Test } from '@nestjs/testing';
-import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
+import { CacheModule } from '@nestjs/cache-manager';
+import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { EnrollCourseService } from './enroll-course.service';
-import { EnrollCourseEntity } from '../entities/enrollcourse.entity';
-import { CourseService } from '../course/course.service';
-import { EnrollmentService } from '../enrollment/enrollment.service';
-import { CourseEntity } from '../entities/course.entity';
-import { EnrollmentEntity } from '../entities/enrollment.entity';
+import { CreateEnrollCourseDto } from './dto/create-enroll-course.dto';
+import { EnrollCourseModule } from './enroll-course.module';
 import { mockerRepository } from '../helper';
+import { EnrollCourseEntity } from '../entities/enrollcourse.entity';
+import { EnrollmentService } from '../enrollment/enrollment.service';
+import { EnrollmentEntity } from '../entities/enrollment.entity';
+import { CourseService } from '../course/course.service';
+import { CourseEntity } from '../entities/course.entity';
 import { ProfessorService } from '../professor/professor.service';
-import { StudentService } from '../student/student.service';
 import { ProfessorEntity } from '../entities/professor.entity';
+import { StudentService } from '../student/student.service';
 import { StudentEntity } from '../entities/student.entity';
 import { MetadataService } from '../metadata/metadata.service';
 import { MetadataEntity } from '../entities/metadata.entity';
-import ormConfigDev from '../config/orm.config.dev';
-import ormConfigProd from '../config/orm.config.prod';
+import { ProfessorModule } from '../professor/professor.module';
+import { StudentModule } from '../student/student.module';
+import { CourseModule } from '../course/course.module';
+import { MetadataModule } from '../metadata/metadata.module';
+import { EnrollmentModule } from '../enrollment/enrollment.module';
+import { CreateCourseDto } from '../course/dto/create-course.dto';
+import ormConfigTest from '../config/orm.config.test';
 
 describe('EnrollCourseService', () => {
+  let module: TestingModule;
   let service: EnrollCourseService;
   let repo: Repository<EnrollCourseEntity>;
   let courseService: CourseService;
   let enrollmentService: EnrollmentService;
 
-  beforeEach(async () => {
-    const module = await Test.createTestingModule({
+  beforeAll(async () => {
+    module = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({
-          envFilePath: `${process.env.NODE_ENV}.env`,
+        CacheModule.register({
           isGlobal: true,
-          load: [ormConfigDev],
+        }),
+        ConfigModule.forRoot({
+          envFilePath: `test.env`,
+          isGlobal: true,
         }),
         TypeOrmModule.forRootAsync({
-          useFactory:
-            process.env.NODE_ENV === 'prod' ? ormConfigProd : ormConfigDev,
+          useFactory: ormConfigTest,
         }),
+        EnrollCourseModule,
+        ProfessorModule,
+        StudentModule,
+        CourseModule,
+        MetadataModule,
+        EnrollmentModule,
       ],
       providers: [
         EnrollCourseService,
@@ -68,7 +84,27 @@ describe('EnrollCourseService', () => {
     expect(enrollmentService).toBeDefined();
   });
 
-  it('should return page', async () => {
-    
+  it('should create and return', async () => {
+    const newCourse: CourseEntity = await courseService.create({
+      professorId: 'd5528d8a-b567-444f-b623-8b63ff7525b0',
+      abbreviation: 'EF',
+      fullname: 'Educación física',
+      credits: 2,
+      description: 'Deportes',
+    } as CreateCourseDto);
+
+    const createEnrollCourseDto = {
+      courseId: newCourse.id,
+      enrollmentId: '1fdc8477-0f85-4301-a307-cb9c4b6e1b35',
+    } as CreateEnrollCourseDto;
+
+    const spyCreate = jest.spyOn(service, 'create');
+    const newEnrollCourse: EnrollCourseEntity = await service.create(
+      createEnrollCourseDto,
+    );
+
+    expect(spyCreate).toBeCalledTimes(1);
+    expect(spyCreate).toHaveBeenCalledWith(createEnrollCourseDto);
+    expect(newEnrollCourse).toBeInstanceOf(EnrollCourseEntity);
   });
 });
