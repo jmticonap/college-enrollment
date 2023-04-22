@@ -1,6 +1,9 @@
-import { IsNotEmpty, IsUUID, Min } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsUUID, Min } from 'class-validator';
 
 export class CreateCourseDto {
+  @IsOptional()
+  id?: string;
+
   @IsUUID()
   professorId: string;
 
