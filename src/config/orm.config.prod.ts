@@ -1,11 +1,6 @@
+import * as path from 'path';
 import { registerAs } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { ProfessorEntity } from '../entities/professor.entity';
-import { StudentEntity } from '../entities/student.entity';
-import { MetadataEntity } from '../entities/metadata.entity';
-import { EnrollmentEntity } from '../entities/enrollment.entity';
-import { CourseEntity } from '../entities/course.entity';
-import { EnrollCourseEntity } from '../entities/enrollcourse.entity';
 
 export default registerAs(
   'orm.config',
@@ -16,17 +11,11 @@ export default registerAs(
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    entities: [
-      ProfessorEntity,
-      StudentEntity,
-      MetadataEntity,
-      EnrollmentEntity,
-      CourseEntity,
-      EnrollCourseEntity,
-    ],
-    migrations: ['dist/migration/*.js'],
+    entities: [path.join(__dirname, '..', 'entities', '*.entity.{ts,js}')],
+    migrations: [path.join(__dirname, '..', 'migration', '*.{ts,js}')],
     migrationsTableName: 'mgt',
     synchronize: false,
     dropSchema: false,
+    migrationsRun: true,
   }),
 );

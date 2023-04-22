@@ -1,22 +1,22 @@
 import * as path from 'path';
-import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { registerAs } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 export default registerAs(
   'orm.config',
   (): TypeOrmModuleOptions =>
     ({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'password',
+      database: 'college-enrollment-test-db',
       entities: [path.join(__dirname, '..', 'entities', '*.entity.{ts,js}')],
       migrations: [path.join(__dirname, '..', 'migration', '*.{ts,js}')],
       migrationsTableName: 'mgt',
-      dropSchema: false,
+      dropSchema: true,
       synchronize: false,
       migrationsRun: true,
     } as PostgresConnectionOptions),
