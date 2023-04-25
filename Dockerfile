@@ -3,8 +3,6 @@ FROM node:18-buster-slim
 # Create app directory
 WORKDIR /usr/src/app
 
-ENV PORT = ${APP_PORT}
-
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
@@ -17,7 +15,8 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE $PORT
+EXPOSE 80
+EXPOSE 3000
 RUN npm run build
 
 CMD ["npm","run", "prod"]
