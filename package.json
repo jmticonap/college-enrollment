@@ -27,6 +27,7 @@
     "db:init": "npm run migration:sync && npm run migration:run"
   },
   "dependencies": {
+    "@fastify/helmet": "^10.1.0",
     "@nestjs/axios": "^2.0.0",
     "@nestjs/cache-manager": "^1.0.0",
     "@nestjs/common": "^9.0.0",
@@ -43,6 +44,7 @@
     "cache-manager-redis-yet": "^4.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "helmet": "^6.1.5",
     "morgan": "^1.10.0",
     "nestjs-typeorm-paginate": "^4.0.3",
     "pg": "^8.10.0",
