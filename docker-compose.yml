@@ -1,0 +1,32 @@
+# Use postgres/password user/password credentials
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  backend:
+    image: jmticonap/college-enrollment
+    restart: always
+    environment:
+      - NODE_ENV=prod
+      - APP_PORT=3000
+      - DB_HOST=localhost
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=college-enrollment-db
+    ports:
+      - 3000:3000
+    network_mode: 'host'

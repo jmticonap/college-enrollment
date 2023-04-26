@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { EnrollmentEntity } from './enrollment.entity';
+import { MetadataEntity } from './metadata.entity';
 
 @Entity('student')
 export class StudentEntity {
@@ -21,6 +22,9 @@ export class StudentEntity {
   @Column({ nullable: true })
   address: string;
 
+  @OneToMany(() => MetadataEntity, (meta) => meta.student, { eager: true })
+  metadata: MetadataEntity[];
+
   @OneToMany(() => EnrollmentEntity, (enrollment) => enrollment.student)
-  enrollments: Promise<EnrollmentEntity[]>;
+  enrollments: EnrollmentEntity[];
 }

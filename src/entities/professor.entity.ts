@@ -12,7 +12,7 @@ export class ProfessorEntity {
   @Column({ nullable: false })
   lastname: string;
 
-  @Column({ unique: false })
+  @Column({ unique: true })
   dni: string;
 
   @Column({ nullable: true })

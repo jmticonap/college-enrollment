@@ -4,12 +4,9 @@ import {
   Column,
   ManyToOne,
   OneToMany,
-  ManyToMany,
-  JoinTable,
 } from 'typeorm';
 import { ProfessorEntity } from './professor.entity';
 import { EnrollCourseEntity } from './enrollcourse.entity';
-import { EnrollmentEntity } from './enrollment.entity';
 
 @Entity('course')
 export class CourseEntity {
@@ -19,10 +16,10 @@ export class CourseEntity {
   @Column({ nullable: false })
   fullname: string;
 
-  @Column({ unique: true })
+  @Column({ nullable: false, unique: true })
   abbreviation: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, update: false })
   credits: number;
 
   @Column({ nullable: true })
@@ -30,10 +27,6 @@ export class CourseEntity {
 
   @ManyToOne(() => ProfessorEntity, (professor) => professor.courses)
   professor: ProfessorEntity;
-
-  @ManyToMany(() => EnrollmentEntity, (enrollment) => enrollment.courses)
-  @JoinTable({ name: 'enroll_course' })
-  enrollments: EnrollmentEntity[];
 
   @OneToMany(() => EnrollCourseEntity, (enrollcourse) => enrollcourse.course)
   enrollcourses: EnrollCourseEntity[];
