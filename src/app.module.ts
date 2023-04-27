@@ -6,15 +6,16 @@ import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CreateUpdateInterceptor } from './logging/createUpdate.interceptor';
-import { ErrorInterceptor } from './logging/error.interceptor';
-import { ProfessorModule } from './professor/professor.module';
-import { StudentModule } from './student/student.module';
-import { EnrollmentModule } from './enrollment/enrollment.module';
-import { EnrollCourseModule } from './enroll-course/enroll-course.module';
-import { CourseModule } from './course/course.module';
+import { ProfessorModule } from './modules/professor/professor.module';
+import { StudentModule } from './modules/student/student.module';
+import { EnrollmentModule } from './modules/enrollment/enrollment.module';
+import { EnrollCourseModule } from './modules/enroll-course/enroll-course.module';
+import { CourseModule } from './modules/course/course.module';
+import { MetadataModule } from './modules/metadata/metadata.module';
+import { CreateUpdateInterceptor } from './interceptors/createUpdate.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { HealthModule } from './health/health.module';
-import { MetadataModule } from './metadata/metadata.module';
+import { RemoteModule } from './modules/remote/remote.module';
 import ormConfigDev from './config/orm.config.dev';
 import ormConfigProd from './config/orm.config.prod';
 import CacheConfigService from './cache/cacheConfig.service';
@@ -41,6 +42,7 @@ import CacheConfigService from './cache/cacheConfig.service';
     CourseModule,
     HealthModule,
     MetadataModule,
+    RemoteModule,
   ],
   controllers: [AppController],
   providers: [
