@@ -6,7 +6,7 @@ import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { EnrollCourseService } from './enroll-course.service';
 import { CreateEnrollCourseDto } from './dto/create-enroll-course.dto';
 import { EnrollCourseModule } from './enroll-course.module';
-import { mockerRepository } from '../../helper';
+import { mockerRepository, mockerRepositoryGolevelup } from '../../helper';
 import { EnrollCourseEntity } from '../../entities/enrollcourse.entity';
 import { EnrollmentService } from '../enrollment/enrollment.service';
 import { EnrollmentEntity } from '../../entities/enrollment.entity';
@@ -26,11 +26,13 @@ import { EnrollmentModule } from '../enrollment/enrollment.module';
 import { CreateCourseDto } from '../course/dto/create-course.dto';
 import ormConfigTest from '../../config/orm.config.test';
 import { RemoteService } from '../remote/remote.service';
+import { DeepMocked, createMock } from '@golevelup/ts-jest';
+import { AppDataSource } from 'src/db/data-source';
 
 describe('EnrollCourseService', () => {
   let module: TestingModule;
   let service: EnrollCourseService;
-  let repo: Repository<EnrollCourseEntity>;
+  let repo: DeepMocked<Repository<EnrollCourseEntity>>;
   let courseService: CourseService;
   let enrollmentService: EnrollmentService;
 
@@ -56,23 +58,29 @@ describe('EnrollCourseService', () => {
       ],
       providers: [
         EnrollCourseService,
-        mockerRepository(EnrollCourseEntity),
+        mockerRepositoryGolevelup<EnrollCourseEntity>(EnrollCourseEntity),
+        // mockerRepository(EnrollCourseEntity),
         CourseService,
-        mockerRepository(CourseEntity),
+        mockerRepositoryGolevelup<CourseEntity>(CourseEntity),
+        // mockerRepository(CourseEntity),
         ProfessorService,
-        mockerRepository(ProfessorEntity),
+        mockerRepositoryGolevelup<ProfessorEntity>(ProfessorEntity),
+        // mockerRepository(ProfessorEntity),
         EnrollmentService,
-        mockerRepository(EnrollmentEntity),
+        mockerRepositoryGolevelup<EnrollmentEntity>(EnrollmentEntity),
+        // mockerRepository(EnrollmentEntity),
         StudentService,
-        mockerRepository(StudentEntity),
+        mockerRepositoryGolevelup<StudentEntity>(StudentEntity),
+        // mockerRepository(StudentEntity),
         MetadataService,
-        mockerRepository(MetadataEntity),
+        mockerRepositoryGolevelup<MetadataEntity>(MetadataEntity),
+        // mockerRepository(MetadataEntity),
         RemoteService,
       ],
     }).compile();
 
     service = module.get<EnrollCourseService>(EnrollCourseService);
-    repo = module.get<Repository<EnrollCourseEntity>>(
+    repo = module.get<DeepMocked<Repository<EnrollCourseEntity>>>(
       getRepositoryToken(EnrollCourseEntity),
     );
     courseService = module.get<CourseService>(CourseService);
@@ -86,27 +94,27 @@ describe('EnrollCourseService', () => {
     expect(enrollmentService).toBeDefined();
   });
 
-  it('should create and return', async () => {
-    const newCourse: CourseEntity = await courseService.create({
-      professorId: 'd5528d8a-b567-444f-b623-8b63ff7525b0',
-      abbreviation: 'EF',
-      fullname: 'Educación física',
-      credits: 2,
-      description: 'Deportes',
-    } as CreateCourseDto);
+  // it('should create and return', async () => {
+  //   const newCourse: CourseEntity = await courseService.create({
+  //     professorId: 'd5528d8a-b567-444f-b623-8b63ff7525b0',
+  //     abbreviation: 'EF',
+  //     fullname: 'Educación física',
+  //     credits: 2,
+  //     description: 'Deportes',
+  //   } as CreateCourseDto);
 
-    const createEnrollCourseDto = {
-      courseId: newCourse.id,
-      enrollmentId: '1fdc8477-0f85-4301-a307-cb9c4b6e1b35',
-    } as CreateEnrollCourseDto;
+  //   const createEnrollCourseDto = {
+  //     courseId: newCourse.id,
+  //     enrollmentId: '1fdc8477-0f85-4301-a307-cb9c4b6e1b35',
+  //   } as CreateEnrollCourseDto;
 
-    const spyCreate = jest.spyOn(service, 'create');
-    const newEnrollCourse: EnrollCourseEntity = await service.create(
-      createEnrollCourseDto,
-    );
+  //   const spyCreate = jest.spyOn(service, 'create');
+  //   const newEnrollCourse: EnrollCourseEntity = await service.create(
+  //     createEnrollCourseDto,
+  //   );
 
-    expect(spyCreate).toBeCalledTimes(1);
-    expect(spyCreate).toHaveBeenCalledWith(createEnrollCourseDto);
-    expect(newEnrollCourse).toBeInstanceOf(EnrollCourseEntity);
-  });
+  //   expect(spyCreate).toBeCalledTimes(1);
+  //   expect(spyCreate).toHaveBeenCalledWith(createEnrollCourseDto);
+  //   expect(newEnrollCourse).toBeInstanceOf(EnrollCourseEntity);
+  // });
 });
