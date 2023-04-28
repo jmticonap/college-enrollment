@@ -17,11 +17,9 @@ import { CreateProfessorDto } from './dto/create-professor.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { ProfessorEntity } from '../../entities/professor.entity';
 import { ProfessorService } from './professor.service';
-import { ErrorInterceptor } from '../../interceptors/error.interceptor';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @UseInterceptors(CacheInterceptor)
-@UseInterceptors(ErrorInterceptor)
 @Controller('professor')
 export class ProfessorController {
   constructor(private readonly professorService: ProfessorService) {}

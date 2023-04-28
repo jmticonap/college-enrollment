@@ -19,10 +19,8 @@ import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { CourseEntity } from '../../entities/course.entity';
-import { ErrorInterceptor } from '../../interceptors/error.interceptor';
 
 @UseInterceptors(CacheInterceptor)
-@UseInterceptors(ErrorInterceptor)
 @Controller('course')
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}

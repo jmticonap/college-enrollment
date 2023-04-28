@@ -12,8 +12,6 @@ import { EnrollmentModule } from './modules/enrollment/enrollment.module';
 import { EnrollCourseModule } from './modules/enroll-course/enroll-course.module';
 import { CourseModule } from './modules/course/course.module';
 import { MetadataModule } from './modules/metadata/metadata.module';
-import { CreateUpdateInterceptor } from './interceptors/createUpdate.interceptor';
-import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { HealthModule } from './health/health.module';
 import { RemoteModule } from './modules/remote/remote.module';
 import ormConfigDev from './config/orm.config.dev';
@@ -50,14 +48,6 @@ import CacheConfigService from './cache/cacheConfig.service';
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CreateUpdateInterceptor,
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: ErrorInterceptor,
     },
   ],
 })

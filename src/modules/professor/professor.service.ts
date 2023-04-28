@@ -1,4 +1,4 @@
-import { Injectable, UseInterceptors } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -8,11 +8,8 @@ import {
 } from 'nestjs-typeorm-paginate';
 import { ProfessorEntity } from '../../entities/professor.entity';
 import { CreateProfessorDto } from './dto/create-professor.dto';
-import { CreateUpdateInterceptor } from '../../interceptors/createUpdate.interceptor';
-import { ErrorInterceptor } from '../../interceptors/error.interceptor';
 import { UpdateProfessorDto } from './dto/update-professor.dto';
 
-@UseInterceptors(ErrorInterceptor)
 @Injectable()
 export class ProfessorService {
   constructor(
@@ -20,7 +17,6 @@ export class ProfessorService {
     private readonly professorRepository: Repository<ProfessorEntity>,
   ) {}
 
-  @UseInterceptors(CreateUpdateInterceptor)
   async create(createProfessor: CreateProfessorDto) {
     return await this.professorRepository.save(createProfessor);
   }
@@ -35,7 +31,6 @@ export class ProfessorService {
     return this.professorRepository.findOneBy({ id });
   }
 
-  @UseInterceptors(CreateUpdateInterceptor)
   async update(id: string, professorDto: UpdateProfessorDto) {
     return await this.professorRepository.update(id, professorDto);
   }
