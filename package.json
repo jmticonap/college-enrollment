@@ -1,6 +1,6 @@
 {
   "name": "college-enrollment",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "RestFull API for college enrollment",
   "author": "juan.ticona@tektonlabs.com",
   "private": true,
