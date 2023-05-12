@@ -12,11 +12,14 @@ import {
   UsePipes,
   ValidationPipe,
   UseInterceptors,
+  Req,
 } from '@nestjs/common';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
+import { getFullUrl } from 'src/helper';
+import { Request } from 'express';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('student')
@@ -33,12 +36,13 @@ export class StudentController {
   find(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    @Req() req: Request,
   ) {
     limit = limit > 100 ? 100 : limit;
     return this.studentService.findPaged({
       page,
       limit,
-      route: 'http://localhost:3000/student',
+      route: getFullUrl(req),
     });
   }
 

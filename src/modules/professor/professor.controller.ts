@@ -12,12 +12,15 @@ import {
   UsePipes,
   ValidationPipe,
   UseInterceptors,
+  Req,
 } from '@nestjs/common';
 import { CreateProfessorDto } from './dto/create-professor.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { ProfessorEntity } from '../../entities/professor.entity';
 import { ProfessorService } from './professor.service';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { Request } from 'express';
+import { getFullUrl } from 'src/helper';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('professor')
@@ -28,12 +31,13 @@ export class ProfessorController {
   find(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    @Req() req: Request,
   ): Promise<Pagination<ProfessorEntity>> {
     limit = limit > 100 ? 100 : limit;
     return this.professorService.findPaged({
       page,
       limit,
-      route: 'http://localhost:3000/professor',
+      route: getFullUrl(req),
     });
   }
 
