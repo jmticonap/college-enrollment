@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UseInterceptors } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -10,10 +10,7 @@ import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { CourseEntity } from '../../entities/course.entity';
 import { ProfessorService } from '../professor/professor.service';
-import { CreateUpdateInterceptor } from '../../interceptors/createUpdate.interceptor';
-import { ErrorInterceptor } from '../../interceptors/error.interceptor';
 
-@UseInterceptors(ErrorInterceptor)
 @Injectable()
 export class CourseService {
   constructor(
@@ -22,7 +19,6 @@ export class CourseService {
     private readonly professorService: ProfessorService,
   ) {}
 
-  @UseInterceptors(CreateUpdateInterceptor)
   async create(courseDto: CreateCourseDto) {
     const professor = await this.professorService.findById(
       courseDto.professorId,
@@ -46,7 +42,6 @@ export class CourseService {
     });
   }
 
-  @UseInterceptors(CreateUpdateInterceptor)
   async update(id: string, courseDto: UpdateCourseDto) {
     return this.courseRepository.update(id, courseDto);
   }

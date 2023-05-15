@@ -9,16 +9,13 @@ import {
   Query,
   DefaultValuePipe,
   ParseIntPipe,
-  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { EnrollCourseService } from './enroll-course.service';
 import { CreateEnrollCourseDto } from './dto/create-enroll-course.dto';
 import { UpdateEnrollCourseDto } from './dto/update-enroll-course.dto';
-import { ErrorInterceptor } from '../../interceptors/error.interceptor';
 
-@UseInterceptors(ErrorInterceptor)
 @Controller('enroll-course')
 export class EnrollCourseController {
   constructor(private readonly enrollCourseService: EnrollCourseService) {}

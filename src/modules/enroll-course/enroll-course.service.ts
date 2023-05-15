@@ -1,4 +1,4 @@
-import { Injectable, UseInterceptors } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -11,10 +11,7 @@ import { UpdateEnrollCourseDto } from './dto/update-enroll-course.dto';
 import { EnrollCourseEntity } from '../../entities/enrollcourse.entity';
 import { CourseService } from '../course/course.service';
 import { EnrollmentService } from '../enrollment/enrollment.service';
-import { CreateUpdateInterceptor } from '../../interceptors/createUpdate.interceptor';
-import { ErrorInterceptor } from '../../interceptors/error.interceptor';
 
-@UseInterceptors(ErrorInterceptor)
 @Injectable()
 export class EnrollCourseService {
   constructor(
@@ -24,7 +21,6 @@ export class EnrollCourseService {
     private readonly enrollmentService: EnrollmentService,
   ) {}
 
-  @UseInterceptors(CreateUpdateInterceptor)
   async create(enrollCourseDto: CreateEnrollCourseDto) {
     const enrollment = await this.enrollmentService.findById(
       enrollCourseDto.enrollmentId,
@@ -58,7 +54,6 @@ export class EnrollCourseService {
     return this.enrollcourseRepository.findBy({ enrollment: { id } });
   }
 
-  @UseInterceptors(CreateUpdateInterceptor)
   async update(id: string, enrollCourseDto: UpdateEnrollCourseDto) {
     return await this.enrollcourseRepository.update(id, enrollCourseDto);
   }

@@ -1,4 +1,4 @@
-import { Injectable, UseInterceptors } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -10,13 +10,10 @@ import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { StudentEntity } from '../../entities/student.entity';
 import { MetadataEntity } from '../../entities/metadata.entity';
-import { CreateUpdateInterceptor } from '../../interceptors/createUpdate.interceptor';
-import { ErrorInterceptor } from '../../interceptors/error.interceptor';
 import { getDiference } from '../../helper/student.helper';
 import { MetadataService } from '../metadata/metadata.service';
 import { RemoteService } from '../remote/remote.service';
 
-@UseInterceptors(ErrorInterceptor)
 @Injectable()
 export class StudentService {
   constructor(
@@ -26,7 +23,6 @@ export class StudentService {
     private readonly remoteService: RemoteService,
   ) {}
 
-  @UseInterceptors(CreateUpdateInterceptor)
   async create(studentDto: CreateStudentDto) {
     const remoteStudent = await this.remoteService.findByDni(studentDto.dni);
     if (!remoteStudent)
@@ -52,7 +48,6 @@ export class StudentService {
     return this.studentRepository.findOneBy({ id });
   }
 
-  @UseInterceptors(CreateUpdateInterceptor)
   async update(id: string, studentDto: UpdateStudentDto) {
     return await this.studentRepository.update(id, studentDto);
   }

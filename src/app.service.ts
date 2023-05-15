@@ -1,10 +1,8 @@
-import { Injectable, UseInterceptors } from '@nestjs/common';
-import { CreateUpdateInterceptor } from './interceptors/createUpdate.interceptor';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  @UseInterceptors(CreateUpdateInterceptor)
-  getHello(): string {
+  getHello() {
     return 'Hello World!';
   }
 }

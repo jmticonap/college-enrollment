@@ -3,6 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 import { Repository } from 'typeorm';
 import { AppDataSource } from '../db/data-source';
+import { Request } from 'express';
 
 export const mockerRepository = (entity: EntityClassOrSchema) => ({
   provide: getRepositoryToken(entity),
@@ -20,4 +21,8 @@ export function mockerRepositoryGolevelup<E>(entity: EntityClassOrSchema) {
     provide: getRepositoryToken(entity, AppDataSource),
     useValue: createMock(Repository<E>),
   };
+}
+
+export function getFullUrl(req: Request) {
+  return `${req.protocol}://${req.get('Host')}${req.originalUrl}`;
 }

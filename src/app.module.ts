@@ -12,10 +12,10 @@ import { EnrollmentModule } from './modules/enrollment/enrollment.module';
 import { EnrollCourseModule } from './modules/enroll-course/enroll-course.module';
 import { CourseModule } from './modules/course/course.module';
 import { MetadataModule } from './modules/metadata/metadata.module';
-import { CreateUpdateInterceptor } from './interceptors/createUpdate.interceptor';
-import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { HealthModule } from './health/health.module';
 import { RemoteModule } from './modules/remote/remote.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
 import ormConfigDev from './config/orm.config.dev';
 import ormConfigProd from './config/orm.config.prod';
 import CacheConfigService from './cache/cacheConfig.service';
@@ -27,6 +27,7 @@ import CacheConfigService from './cache/cacheConfig.service';
       useClass: CacheConfigService,
     }),
     ConfigModule.forRoot({
+      ignoreEnvVars: process.env.NODE_ENV === 'prod',
       envFilePath: `${process.env.NODE_ENV}.env`,
       isGlobal: true,
       load: [ormConfigDev],
@@ -43,6 +44,8 @@ import CacheConfigService from './cache/cacheConfig.service';
     HealthModule,
     MetadataModule,
     RemoteModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [
@@ -50,14 +53,6 @@ import CacheConfigService from './cache/cacheConfig.service';
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CreateUpdateInterceptor,
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: ErrorInterceptor,
     },
   ],
 })
