@@ -1,4 +1,14 @@
 export const dbSchema = {
+  user: `
+  DROP TABLE IF EXISTS public.user;
+  CREATE TABLE public.user (
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    email varchar NOT NULL,
+    password varchar NOT NULL,
+    CONSTRAINT "PK_user" PRIMARY KEY (id),
+    CONSTRAINT "UQ_user_email" UNIQUE (email)
+  );
+  `,
   professor: `
   DROP TABLE IF EXISTS public.professor;
   CREATE TABLE public.professor (
