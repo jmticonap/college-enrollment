@@ -27,6 +27,7 @@ import CacheConfigService from './cache/cacheConfig.service';
       useClass: CacheConfigService,
     }),
     ConfigModule.forRoot({
+      ignoreEnvVars: process.env.NODE_ENV === 'prod',
       envFilePath: `${process.env.NODE_ENV}.env`,
       isGlobal: true,
       load: [ormConfigDev],
