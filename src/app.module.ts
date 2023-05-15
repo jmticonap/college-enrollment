@@ -14,6 +14,8 @@ import { CourseModule } from './modules/course/course.module';
 import { MetadataModule } from './modules/metadata/metadata.module';
 import { HealthModule } from './health/health.module';
 import { RemoteModule } from './modules/remote/remote.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
 import ormConfigDev from './config/orm.config.dev';
 import ormConfigProd from './config/orm.config.prod';
 import CacheConfigService from './cache/cacheConfig.service';
@@ -41,6 +43,8 @@ import CacheConfigService from './cache/cacheConfig.service';
     HealthModule,
     MetadataModule,
     RemoteModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [
